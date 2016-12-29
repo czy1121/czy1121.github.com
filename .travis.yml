@@ -13,6 +13,7 @@ before_install:
 - cp .travis/ssh_config ~/.ssh/config
 - git config --global user.name "czy1121"
 - git config --global user.email 249736246@qq.com
+- sed -i'' -e "/^ *repo/s~github\.com~${GH_TOKEN}@github.com~" _config.yml
 install:
 - npm install hexo-cli -g
 - npm install hexo --save
@@ -20,7 +21,6 @@ install:
 script:
 - hexo clean
 - hexo generate
-- sed -i'' "/^ *repo/s~github\.com~${GH_TOKEN}@github.com~" _config.yml
 - hexo deploy
 env:
   global:
