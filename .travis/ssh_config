@@ -1,0 +1,5 @@
+Host github.com
+User git
+StrictHostKeyChecking no
+IdentityFile ~/.ssh/reezy_blog_rsa
+IdentitiesOnly yes
