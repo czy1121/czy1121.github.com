@@ -20,4 +20,8 @@ install:
 script:
 - hexo clean
 - hexo generate
+- sed -i'' "/^ *repo/s~github\.com~${GH_TOKEN}@github.com~" _config.yml
 - hexo deploy
+env:
+  global:
+    secure: mq8dKHKoJgTcJqqBI0gkgTP3mXYqJWJ0XrUYC6ZGMvr//UDE9eeR4CepY9XwA0vvj0EcLSr1bn9Vlbcw9V8dPY8BfcyakCpDde8fGOeksNPVNneO6kil180p97RR4y/Eftzy+as9Zg4BBJMdUVpBN7wl+U0dSl/57Y0qgISkwRwFf+4muQv8O/NylUi/jTPdzfm3aRE7xm2S4uxWeHPSoKMZ5ZYH/UL3kggSY40KoI3YX5O9b7UCjXgGCJGSRiUESDOoahzQGHIyiGexf3sqA1b6lqn5wMq4jOJEiwvd6w+Me67t5Re0F3KtD0s+NmzAKNL/HTbsXhJvCgEn7TnvCyirQDs6s78di75BCr7jkriipBP9mc8qhgpPonlEt6MsdCZ44Ar9yZLD+EESGVOqJU9R0uX6cJVvG2yjmfmY7ZxxIC0ibeY6z5DYJ/lg845WtLmz8KVjvaJGScasC+vOK0JU1+ZfY0OghQ12DmKjumMQASjPXBwfpB6zBt6r1iQ4+Wf2QTFi35KM96CAyFza5yI+LZQ1pYGm+FQb7LXYxtZ7p8d8Yss0k0oxO4x2DUkwedq9LxJI8Q5SLStOmwqhvFFWqx8aM+0EQ6k/ISL1LKQSCl/KQElNj6bAHO/F5yN3wUqfD1BdH8nhVv00CM4V08jPFOLxAo7TCJfnPr2dwrc=
