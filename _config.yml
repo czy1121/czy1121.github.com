@@ -69,6 +69,6 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/czy1121/czy1121.github.com.git
+  repo: git@github.com:czy1121/czy1121.github.com.git
   branch: master
   message: update
