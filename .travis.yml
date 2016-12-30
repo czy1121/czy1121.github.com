@@ -2,7 +2,7 @@ language: node_js
 node_js:
 - 0.12.7
 git:
-  depth: 50
+  depth: 5
 branches:
   only:
   - hexo
@@ -16,7 +16,6 @@ before_install:
 - git config --global user.name "czy1121"
 - git config --global user.email 249736246@qq.com
 - sed -i'' "/^ *repo/s~github\.com~${GH_TOKEN}@github.com~" _config.yml
-- git submodule update --init --recursive
 install:
 - npm install hexo-cli -g
 - npm install hexo --save
