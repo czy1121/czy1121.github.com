@@ -4,12 +4,12 @@ node_js:
 branches:
   only:
   - hexo
-before_install 
+before_install
 - openssl aes-256-cbc -K $encrypted_452995f7b481_key -iv $encrypted_452995f7b481_iv
-  -in .travis/hexo_rsa.enc -out ~/.ssh/hexo_rsa -d
-- chmod 600 ~/.ssh/hexo_rsa
+  -in .travis/hexo_rsa.enc -out ~/.ssh/id_rsa -d
+- chmod 600 ~/.ssh/id_rsa
 - eval $(ssh-agent)
-- ssh-add ~/.ssh/hexo_rsa
+- ssh-add ~/.ssh/id_rsa
 - cp .travis/ssh_config ~/.ssh/config
 - git config --global user.name "czy1121"
 - git config --global user.email 249736246@qq.com
