@@ -6,6 +6,8 @@ branches:
   - hexo
 before_install:
 - openssl aes-256-cbc -K $encrypted_452995f7b481_key -iv $encrypted_452995f7b481_iv
+  -in hexo_rsa.enc -out ~\/.ssh/hexo_rsa -d
+- openssl aes-256-cbc -K $encrypted_452995f7b481_key -iv $encrypted_452995f7b481_iv
   -in .travis/hexo_rsa.enc -out ~/.ssh/hexo_rsa -d
 - chmod 600 ~/.ssh/hexo_rsa
 - eval $(ssh-agent)
@@ -24,4 +26,4 @@ script:
 - hexo deploy
 env:
   global:
-    secure: YhIe6wFcFIFuqX1tDueX06F7qLgd055kHgdjQe+BcvDJKi/n9myshFqRVzGSbZ3BCkWB7MUBDNzXFmKKeUh5lLaZtEh7KF46043uvbq+pO/tECm3qQJc7EW0ZzQTTlwjBSkVi6vuooTg3O8P+z3IgU6bmc6A3a+VzHs+lnA/xckBlUL8eQpJzE5Odoo6TnplFRh+hg+HmpRlkOQjdibX8KCtxT0A7xIek+3hvhWBNtFq8QPtaly7X1053RzgoBhyKF54OACIUr1SDwbyg7o3aVZPwZTgAvewJ+etp4lktsLbDID21e/LW2yFobBx9q6Ck918B6SxlJ4xsfApAEmDaeFtuONeY45a7T+2eDR0nDaA/+Zy02mO3R+D/0ECE3FTBoSFXou/xUj+QwshgKmNWNBWXW29mD54BPw+8ToWu93FToaMST8nF6qWAom6MWkm7+onPqbtPwOYhTXAD0dn8ZzDAIOFfex8o6HdcsjdEZ8AurLpmm0duXPZTrh4xXGkZRyZkm1yy6lv1mSQnzMLb5rftdXOUsHaeTSgGFjoc+q/5dvNmdVzTwUEEkjL2bHtBqQafamSCAs0LS6Ml/TfhyiAo9MolbCDzXd6rNSTvlwrUG9U2NtLf/VAKUUVJbXpvqv2aDm8bEdZMgkb89I8LFtu/r6KOoUqMbyUsV/WSjA=
+    secure: jb/vAGgTXiTfpmECD2PTMglxOLBY3zepvB4adJaUNczE5mEmCmIL4ty6cDyI0f7yWP4NbvXsOtijl2TTrtmIjwI1rOYqnSM7PSdtIIE5xx7cv2ZBzqo9jMNF5dcqNvAM80VQX9yecjTd/QLZw+pb0/UilGXXZDGkvTzBfz+bsZLSmqwIcz4U66ljWDZ94uLe6KCAe++XtJyV7WldaijlM7ksaDflPwRcCStD5QhBMcOQ9fNSfwtjiqgpYNSi2lwPlN5EcFsryblEjgnD2J/tq/L6tYTsSaYwSKZO/BCp0D0oTJSxvXLQgia6LaP49UcR7deJ101/EcOv/6hSwaiKQ+GoJtwmNKwUWUEnKDmPXjqrOud4DqlCbft7ZoWyPgSw8jepmMLSzUtE+P69O9LD5QnZ47dOerq3sn7GZnGfWM6K3bLIfMAAf+ONNjNatX9cEQrkSVgSufSO92Ith5/cfpr3Br5v7ToERTeSBFJKqnmWaJ/5po2Ta2GAVT96zSGpUvQJukx4Qi+I/YlDJdHlEpvhbQIPUp8Tmeu3g5/9jWTDTEdWk5S15QD2SB5J/LlOyj/dnDY9ATaxJFrCPel2NH4f6z7MNpF4g+oDSXVIwMCC+zO+UfYYsBSuvBYSLp+VsmjJAiZM9O7DPubNfxvswbFpvwfBhL5+7KtooqYefF8=
