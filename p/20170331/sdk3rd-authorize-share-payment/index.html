@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android,分享,授权,支付,sdk," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="https://github.com/czy1121/sdk3rd  第三方SDK集成库，支持 授权/分享/支付 等功能  授权 目前支持 微信/QQ/新浪微博，客户端只需要配置APPID(新浪微博) 分享 目前支持 微信(会话/朋友圈/收藏)，QQ/QZone，新浪微博 支付 目前支持 支付宝/微信支付 对于授权与分享，客户端不用配置APPSECRET，只需要要APPID(新浪微博授权需要re">
+<meta name="keywords" content="android,分享,授权,支付,sdk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第三方SDK集成库(授权|分享|支付)">
+<meta property="og:url" content="http://reezy.me/p/20170331/sdk3rd-authorize-share-payment/index.html">
+<meta property="og:site_name" content="RE:从零开始的EZY">
+<meta property="og:description" content="https://github.com/czy1121/sdk3rd  第三方SDK集成库，支持 授权/分享/支付 等功能  授权 目前支持 微信/QQ/新浪微博，客户端只需要配置APPID(新浪微博) 分享 目前支持 微信(会话/朋友圈/收藏)，QQ/QZone，新浪微博 支付 目前支持 支付宝/微信支付 对于授权与分享，客户端不用配置APPSECRET，只需要要APPID(新浪微博授权需要re">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/czy1121/sdk3rd/master/screenshot.png">
+<meta property="og:updated_time" content="2017-08-23T21:15:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第三方SDK集成库(授权|分享|支付)">
+<meta name="twitter:description" content="https://github.com/czy1121/sdk3rd  第三方SDK集成库，支持 授权/分享/支付 等功能  授权 目前支持 微信/QQ/新浪微博，客户端只需要配置APPID(新浪微博) 分享 目前支持 微信(会话/朋友圈/收藏)，QQ/QZone，新浪微博 支付 目前支持 支付宝/微信支付 对于授权与分享，客户端不用配置APPSECRET，只需要要APPID(新浪微博授权需要re">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/czy1121/sdk3rd/master/screenshot.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://reezy.me/p/20170331/sdk3rd-authorize-share-payment/"/>
+
+
+
+
+
+  <title>第三方SDK集成库(授权|分享|支付) | RE:从零开始的EZY</title>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500511690");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RE:从零开始的EZY</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://reezy.me/p/20170331/sdk3rd-authorize-share-payment/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ezy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RE:从零开始的EZY">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">第三方SDK集成库(授权|分享|支付)</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-31T00:00:00+08:00">
+                2017-03-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/开发/" itemprop="url" rel="index">
+                    <span itemprop="name">开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p><a href="https://github.com/czy1121/sdk3rd" target="_blank" rel="external">https://github.com/czy1121/sdk3rd</a></p>
+</blockquote>
+<p>第三方SDK集成库，支持 授权/分享/支付 等功能</p>
+<ul>
+<li>授权 目前支持 微信/QQ/新浪微博，客户端只需要配置APPID(新浪微博)</li>
+<li>分享 目前支持 微信(会话/朋友圈/收藏)，QQ/QZone，新浪微博</li>
+<li>支付 目前支持 支付宝/微信支付</li>
+<li>对于授权与分享，客户端不用配置APPSECRET，只需要要APPID(新浪微博授权需要redirectUrl)</li>
+<li>对于支付，APPID包含在由后端动态返回的paydata里</li>
+<li>可注册自定义平台实现，满足特殊需求</li>
+<li>分享并未实现ui，需要自己提供ui</li>
+</ul>
+<a id="more"></a>
+<p><img src="https://raw.githubusercontent.com/czy1121/sdk3rd/master/screenshot.png" alt="screenshot"></p>
+<p>目前这个库还不稳定，有些细节并未仔细考虑，有些功能也并未进行测试，支持的平台也不多，欢迎大家 star/issue/pr，共同完善这个库</p>
+<h3 id="关于授权"><a href="#关于授权" class="headerlink" title="关于授权"></a>关于授权</h3><p>成功后的结果为 “code|{code}”, “token|{openId}|{token}” 两种形式</p>
+<ul>
+<li>微信授权是OAuth2.0返回的授权码(code)</li>
+<li>QQ授权是SSO返回的是token</li>
+<li>微博授权其文档说是支持SSO与OAuth2.0，根据情况可能返回code与token</li>
+</ul>
+<p>但客户端其实不需要关心是code还是token，直接把result发结服务端就好了</p>
+<h3 id="关于支付"><a href="#关于支付" class="headerlink" title="关于支付"></a>关于支付</h3><p>很多支付类库会在客户端处理商品支付信息，其实这是不必要的，直接由服务端返回数据并交给支付SDK，然后处理支付结果就好了</p>
+<h3 id="关于分享"><a href="#关于分享" class="headerlink" title="关于分享"></a>关于分享</h3><p>支持 纯文本/纯图片/图文/网页/音乐/视频 等分享类型</p>
+<ul>
+<li>网页/音乐/视频 是卡片形式，可添加 标题(title)/描述(description)/缩略图(thumb)</li>
+<li>微信朋友圈的网页链接不显示 description</li>
+<li>新浪微博文本包含的网址会转成链接</li>
+<li>QZone 的 纯文本/纯图片/图文/视频 以“说说”的形式发布</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>纯文本</th>
+<th>纯图片</th>
+<th>图文</th>
+<th>网页</th>
+<th>音乐</th>
+<th>视频</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QQ</td>
+<td>x</td>
+<td>o</td>
+<td>x</td>
+<td>o</td>
+<td>o</td>
+<td>x</td>
+</tr>
+<tr>
+<td>QZone</td>
+<td>o</td>
+<td>o</td>
+<td>o</td>
+<td>o</td>
+<td>x</td>
+<td>o</td>
+</tr>
+<tr>
+<td>WXSession</td>
+<td>o</td>
+<td>o</td>
+<td>x</td>
+<td>o</td>
+<td>o</td>
+<td>o</td>
+</tr>
+<tr>
+<td>WXTimeline</td>
+<td>o</td>
+<td>o</td>
+<td>x</td>
+<td>o</td>
+<td>o</td>
+<td>o</td>
+</tr>
+<tr>
+<td>Weibo</td>
+<td>o</td>
+<td>o</td>
+<td>o</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>SendToQQ</td>
+<td>o</td>
+<td>o</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>SendToWXS</td>
+<td>o</td>
+<td>o</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+<tr>
+<td>SendToWXT</td>
+<td>o</td>
+<td>o</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+<td>x</td>
+</tr>
+</tbody>
+</table>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h3><p>运行demo需要在<code>gradle.properties</code>中修改app的<strong>包名，签名和为app申请的APPID</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">APPLICATION_ID=ezy.demo.sdk3rd</div><div class="line"></div><div class="line">APPID_QQ=YOUR_APPID</div><div class="line">APPID_WEIXIN=YOUR_APPID</div><div class="line">APPID_WEIBO=YOUR_APPID</div><div class="line"></div><div class="line">SINGING_ALIAS=androiddebugkey</div><div class="line">SINGING_PASSWORD=android</div><div class="line">SINGING_FILE=debug.keystore</div></pre></td></tr></table></figure>
+<h3 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h3><figure class="highlight groovy"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">repositories &#123;</div><div class="line">    maven &#123; url <span class="string">"https://jitpack.io"</span> &#125;</div><div class="line">&#125;</div><div class="line">dependencies &#123;</div><div class="line">    compile <span class="string">'com.github.czy1121.sdk3rd:sdk3rd:0.1.2'</span></div><div class="line">    compile <span class="string">'com.github.czy1121.sdk3rd:sdk3rd-alipay:0.1.1'</span></div><div class="line">    compile <span class="string">'com.github.czy1121.sdk3rd:sdk3rd-qq:0.1.0'</span></div><div class="line"></div><div class="line">    compile <span class="string">'com.sina.weibo.sdk:core:1.0.0:openDefaultRelease@aar'</span></div><div class="line">    compile <span class="string">'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:1.0.2'</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="使用配置"><a href="#使用配置" class="headerlink" title="使用配置"></a>使用配置</h3><p>配置APPID</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">PlatformConfig.useQQ(BuildConfig.APPID_QQ);</div><div class="line">PlatformConfig.useWeixin(BuildConfig.APPID_WEIXIN);</div><div class="line">PlatformConfig.useWeibo(BuildConfig.APPID_WEIBO, <span class="string">"http://www.sina.com/"</span>);</div><div class="line">PlatformConfig.usePayments();</div></pre></td></tr></table></figure>
+<h3 id="使用授权SDK"><a href="#使用授权SDK" class="headerlink" title="使用授权SDK"></a>使用授权SDK</h3><p>设置全局事件回调(非必要)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">AuthorizeSDK.setDefaultCallback(<span class="keyword">new</span> OnCallback() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStarted</span><span class="params">(Activity activity)</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"ezy"</span>, <span class="string">"authorize started"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCompleted</span><span class="params">(Activity activity)</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"ezy"</span>, <span class="string">"authorize completed"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSucceed</span><span class="params">(Activity activity, Object result)</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"ezy"</span>, <span class="string">"authorize succeed"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailed</span><span class="params">(Activity activity, <span class="keyword">int</span> code, String message)</span> </span>&#123;</div><div class="line">        Log.e(<span class="string">"ezy"</span>, <span class="string">"authorize failed ["</span> + code + <span class="string">"]"</span> + message);</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>接收授权结果(新浪微博/QQ)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</div><div class="line">    AuthorizeSDK.onHandleResult(<span class="keyword">this</span>, requestCode, resultCode, data);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调用授权</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">AuthorizeSDK.authorize(MainActivity.<span class="keyword">this</span>, platform, <span class="keyword">new</span> OnSucceed&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSucceed</span><span class="params">(String result)</span> </span>&#123;</div><div class="line">        Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"登陆成功 - "</span> + result, Toast.LENGTH_LONG).show();</div><div class="line"></div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>注册自定义平台，需要实现 IAuthorize 与相应的 IFactory</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">AuthorizeSDK.register(IFactory&lt;IAuthorize&gt; factory);</div><div class="line">AuthorizeSDK.register(String platformName, String appId, Class&lt;IAuthorize&gt; clazz);</div></pre></td></tr></table></figure>
+<h3 id="使用支付SDK"><a href="#使用支付SDK" class="headerlink" title="使用支付SDK"></a>使用支付SDK</h3><p>全局事件回调的设置与授权SDK类似</p>
+<p>调用支付</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">PaymentSDK.pay(MainActivity.<span class="keyword">this</span>, platform, paydata, <span class="keyword">new</span> OnSucceed&lt;String&gt;() &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSucceed</span><span class="params">(String result)</span> </span>&#123;</div><div class="line">        <span class="comment">// todo</span></div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>注册自定义平台，需要实现 IPayable 与相应的 IFactory</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">PaymentSDK.register(IFactory&lt;IPayable&gt; factory);</div><div class="line">PaymentSDK.register(String platformName, Class&lt;IPayable&gt; clazz);</div></pre></td></tr></table></figure>
+<h3 id="使用分享SDK"><a href="#使用分享SDK" class="headerlink" title="使用分享SDK"></a>使用分享SDK</h3><p>全局事件回调的设置与授权SDK类似</p>
+<p>…</p>
+<p>分享结果的接收也与授权SDK类似(QQ)</p>
+<p>…</p>
+<p>注册自定义平台，需要实现 IShareable 与相应的 IFactory</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ShareSDK.register(IFactory&lt;IShareable&gt; factory);</div><div class="line">ShareSDK.register(String platformName, Class&lt;IShareable&gt; clazz);</div></pre></td></tr></table></figure>
+<p>分享</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 分享纯文本</span></div><div class="line">ShareSDK.make(<span class="keyword">this</span>, text).share(platform);</div><div class="line"><span class="comment">// 分享纯图片</span></div><div class="line">ShareSDK.make(<span class="keyword">this</span>, <span class="keyword">new</span> MoImage(image)).share(platform);</div><div class="line"><span class="comment">// 分享图文</span></div><div class="line">ShareSDK.make(<span class="keyword">this</span>, text, <span class="keyword">new</span> MoImage(image)).share(platform);</div><div class="line"></div><div class="line"><span class="comment">// 分享网页链接</span></div><div class="line">ShareSDK.make(<span class="keyword">this</span>, <span class="keyword">new</span> MoWeb(url))</div><div class="line">        .withTitle(<span class="string">"这是标题"</span>)</div><div class="line">        .withDescription(<span class="string">"这是摘要"</span>)</div><div class="line">        .withThumb(thumb)</div><div class="line">        .share(platform, <span class="keyword">new</span> OnSucceed&lt;String&gt;() &#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSucceed</span><span class="params">(String result)</span> </span>&#123;</div><div class="line">               Toast.makeText(MainActivity.<span class="keyword">this</span>, <span class="string">"分享成功"</span>, Toast.LENGTH_LONG).show();</div><div class="line">           &#125;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line"><span class="comment">// 分享音乐</span></div><div class="line">ShareSDK.make(<span class="keyword">this</span>, <span class="keyword">new</span> MoMusic(url))</div><div class="line">        .withTitle(<span class="string">"这是标题"</span>)</div><div class="line">        .withDescription(<span class="string">"这是摘要"</span>)</div><div class="line">        .withThumb(thumb)</div><div class="line">        .share(platform);</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>友盟+分享组件90%常见问题汇总<br><a href="http://bbs.umeng.com/thread-17764-1-1.html" target="_blank" rel="external">http://bbs.umeng.com/thread-17764-1-1.html</a></p>
+<p>友盟各平台可分享内容预览<br><a href="http://dev.umeng.com/social/android/share-detail#5" target="_blank" rel="external">http://dev.umeng.com/social/android/share-detail#5</a></p>
+<p>Android 不同平台分享内容的详细说明<br><a href="http://wiki.mob.com/不同平台分享内容的详细说明" target="_blank" rel="external">http://wiki.mob.com/不同平台分享内容的详细说明</a></p>
+<p>新浪微博SDK<br><a href="https://github.com/sinaweibosdk/weibo_android_sdk" target="_blank" rel="external">https://github.com/sinaweibosdk/weibo_android_sdk</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+            <a href="/tags/分享/" rel="tag"># 分享</a>
+          
+            <a href="/tags/授权/" rel="tag"># 授权</a>
+          
+            <a href="/tags/支付/" rel="tag"># 支付</a>
+          
+            <a href="/tags/sdk/" rel="tag"># sdk</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/p/20170110/android-sdk-xml/" rel="next" title="一些 android sdk 的资源 xml 文件">
+                <i class="fa fa-chevron-left"></i> 一些 android sdk 的资源 xml 文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/p/20170403/install-apps-by-brew-cask/" rel="prev" title="使用 brew 和 brew-cask 安装常用程序">
+                使用 brew 和 brew-cask 安装常用程序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<div class="social-share"></div>
+
+<!--  css & js -->
+<link rel="stylesheet" href="https://unpkg.com/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://unpkg.com/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+    const gitalk = new Gitalk({
+      clientID: '04e001e904d3e8049513',
+      clientSecret: 'db54df563540700ccd40cca2e3694c9ab9bb65d4',
+      repo: 'czy1121.github.com',
+      owner: 'czy1121',
+      admin: ['czy1121'],
+      // facebook-like distraction free mode
+      distractionFreeMode: false
+    })
+
+    gitalk.render('gitalk-container')
+    </script>
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ezy" />
+          <p class="site-author-name" itemprop="name">ezy</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/czy1121" target="_blank" title="GitHub">
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/1e52f82e7ca7" target="_blank" title="简书">
+                  
+                    
+                      简书
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://gold.xitu.io/user/578637c2c4c971005c4ff063" target="_blank" title="掘金">
+                  
+                    
+                      掘金
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于授权"><span class="nav-number">1.</span> <span class="nav-text">关于授权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于支付"><span class="nav-number">2.</span> <span class="nav-text">关于支付</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于分享"><span class="nav-number">3.</span> <span class="nav-text">关于分享</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number"></span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Demo"><span class="nav-number">1.</span> <span class="nav-text">Demo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加依赖"><span class="nav-number">2.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用配置"><span class="nav-number">3.</span> <span class="nav-text">使用配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用授权SDK"><span class="nav-number">4.</span> <span class="nav-text">使用授权SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用支付SDK"><span class="nav-number">5.</span> <span class="nav-text">使用支付SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用分享SDK"><span class="nav-number">6.</span> <span class="nav-text">使用分享SDK</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number"></span> <span class="nav-text">参考</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ezy</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
