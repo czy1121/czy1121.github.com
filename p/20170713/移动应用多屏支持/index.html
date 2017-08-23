@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android,ios,屏幕适配," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="基础概念常见尺寸单位 mm毫米，长度单位。` in(inch|″) 英寸，长度单位，1in=25.4mm。 px(pixel) 像素，图像显示的基本单位。  密度单位 ppi(pixels per inch), px/in 密度单位，每英寸像素数。 dpi(dots per inch) 密度单位，每英寸能印刷的点数。  ppi 与 dpi 基本上等价。不过iOS一般用ppi，Android一般用d">
+<meta name="keywords" content="android,ios,屏幕适配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="移动应用多屏支持">
+<meta property="og:url" content="http://reezy.me/p/20170713/移动应用多屏支持/index.html">
+<meta property="og:site_name" content="RE:从零开始的EZY">
+<meta property="og:description" content="基础概念常见尺寸单位 mm毫米，长度单位。` in(inch|″) 英寸，长度单位，1in=25.4mm。 px(pixel) 像素，图像显示的基本单位。  密度单位 ppi(pixels per inch), px/in 密度单位，每英寸像素数。 dpi(dots per inch) 密度单位，每英寸能印刷的点数。  ppi 与 dpi 基本上等价。不过iOS一般用ppi，Android一般用d">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ocrfm2xav.bkt.clouddn.com/16-9-6/4907311.jpg">
+<meta property="og:image" content="http://ocrfm2xav.bkt.clouddn.com/16-9-8/341374.jpg">
+<meta property="og:updated_time" content="2017-08-23T17:36:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="移动应用多屏支持">
+<meta name="twitter:description" content="基础概念常见尺寸单位 mm毫米，长度单位。` in(inch|″) 英寸，长度单位，1in=25.4mm。 px(pixel) 像素，图像显示的基本单位。  密度单位 ppi(pixels per inch), px/in 密度单位，每英寸像素数。 dpi(dots per inch) 密度单位，每英寸能印刷的点数。  ppi 与 dpi 基本上等价。不过iOS一般用ppi，Android一般用d">
+<meta name="twitter:image" content="http://ocrfm2xav.bkt.clouddn.com/16-9-6/4907311.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://reezy.me/p/20170713/移动应用多屏支持/"/>
+
+
+
+
+
+  <title>移动应用多屏支持 | RE:从零开始的EZY</title>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500511690");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RE:从零开始的EZY</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://reezy.me/p/20170713/移动应用多屏支持/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ezy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RE:从零开始的EZY">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">移动应用多屏支持</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-13T00:00:00+08:00">
+                2017-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/开发/" itemprop="url" rel="index">
+                    <span itemprop="name">开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="常见尺寸单位"><a href="#常见尺寸单位" class="headerlink" title="常见尺寸单位"></a>常见尺寸单位</h3><ul>
+<li><code>mm</code>毫米，长度单位。`</li>
+<li><code>in(inch|″)</code> 英寸，长度单位，<code>1in=25.4mm</code>。</li>
+<li><code>px(pixel)</code> 像素，图像显示的基本单位。</li>
+</ul>
+<h3 id="密度单位"><a href="#密度单位" class="headerlink" title="密度单位"></a>密度单位</h3><ul>
+<li><code>ppi(pixels per inch), px/in</code> 密度单位，每英寸像素数。</li>
+<li><code>dpi(dots per inch)</code> 密度单位，每英寸能印刷的点数。</li>
+</ul>
+<p>ppi 与 dpi 基本上等价。不过iOS一般用ppi，Android一般用dpi。 </p>
+<h3 id="屏幕尺寸与分辨率"><a href="#屏幕尺寸与分辨率" class="headerlink" title="屏幕尺寸与分辨率"></a>屏幕尺寸与分辨率</h3><ul>
+<li><code>对角线长度(diagonal)</code> 屏幕物理尺寸(英寸)。 </li>
+<li><code>分辨率(resolution)</code> 屏幕上的像素总数，通常写作<code>width*height</code>。</li>
+</ul>
+<p>如分辨率1080*1920，表示设备水平方向上有1080个像素，垂直方向有1920个像素。</p>
+<h3 id="屏幕方向"><a href="#屏幕方向" class="headerlink" title="屏幕方向"></a>屏幕方向</h3><p>手机(handset)与平板(tablet)通常有竖屏横屏两种使用的方向模式。</p>
+<ul>
+<li><code>竖屏(portrait)</code>时宽度小于高度。</li>
+<li><code>横屏(landscape)</code>时宽度大于高度。</li>
+</ul>
+<p>一个分辨率1080*1920的设备。<br>处于竖屏模式时，屏幕宽高为 1080*1920。<br>处于横屏模式时，屏幕宽高为 1920*1080。</p>
+<h3 id="逻辑像素单位-dp-sp-pt"><a href="#逻辑像素单位-dp-sp-pt" class="headerlink" title="逻辑像素单位(dp/sp/pt)"></a>逻辑像素单位(dp/sp/pt)</h3><p>开发时一般不直接使用物理像素(px)而是使用逻辑像素。</p>
+<ul>
+<li><code>dp(dip, density-independent pixel)</code> 密度无关像素，用于定义 Android 布局的位置和尺寸。在160dpi屏上<code>1dp = 1px</code>。</li>
+<li><code>sp(sip, scale-independent pixel)</code> 缩放无关像素，用于定义文字大小，类似且默认等于 dp，使用此单位可让用户在运行时改变配置调整字体大小。</li>
+<li><code>pt(point)</code> 点，iOS 开发中用的逻辑像素单位，与 dp 基本上等价。 </li>
+<li><code>dp/in, pt/in</code> 逻辑密度，每英寸逻辑像素数。</li>
+</ul>
+<h3 id="缩放系数-设备密度"><a href="#缩放系数-设备密度" class="headerlink" title="缩放系数/设备密度"></a>缩放系数/设备密度</h3><ul>
+<li><code>缩放系数(scale)</code> 逻辑像素渲染时的缩放比例因子，通过设备密度换算得到。</li>
+<li><code>设备密度(device density)</code> Android厂商或ROM设置的虚拟屏幕密度，用户也能修改，用于计算缩放系数。    </li>
+</ul>
+<h3 id="计算公式"><a href="#计算公式" class="headerlink" title="计算公式"></a>计算公式</h3><ul>
+<li><p>高宽比($r$)  </p>
+<p>$r ={h \over w}$</p>
+</li>
+<li><p>宽($w_{px}$), 高($w_{px}$), 高宽比($r$), 对角线($d_{in}$)，密度($ppi_{px}$) 换算：</p>
+<p>$ppi_{px}$ = ${d_{px} \over d_{in}}$ = $\sqrt{ w_{px}^2 + h_{px}^2 } \over d_{in}$ = $w_{px} \cdot \sqrt{ 1 + r^2 } \over d_{in}$ </p>
+</li>
+</ul>
+<p>  以屏幕尺寸为4寸的iPhone 5为例，分辨率为1136x640，像素密度为326ppi。 而分辨率为1920x1080的家用21.5寸显示器，像素密度为103ppi。</p>
+<ul>
+<li><p>根据设备密度($density$)计算缩放系数($scale$)</p>
+<p>$scale = {density \over 160}$</p>
+</li>
+<li><p>根据缩放系数($scale$)，计算对应的逻辑单位(dp/pt)值</p>
+<p>$w_{dp}={w_{px} \over scale}$  </p>
+<p>$h_{dp}={h_{px} \over scale}$ </p>
+<p>$ppi_{dp}={ppi_{px} \over scale}$</p>
+</li>
+</ul>
+<a id="more"></a>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> _ppi=<span class="function"><span class="keyword">function</span>(<span class="params">w,r,d</span>)</span>&#123;<span class="keyword">return</span> w*<span class="built_in">Math</span>.sqrt(<span class="number">1</span>+<span class="built_in">Math</span>.pow(r,<span class="number">2</span>))/d;&#125;;</div><div class="line"><span class="keyword">var</span> _w=<span class="function"><span class="keyword">function</span>(<span class="params">r,d,ppi</span>)</span>&#123;<span class="keyword">return</span> ppi*d/<span class="built_in">Math</span>.sqrt(<span class="number">1</span>+<span class="built_in">Math</span>.pow(r,<span class="number">2</span>));&#125;;</div><div class="line"><span class="keyword">var</span> _d=<span class="function"><span class="keyword">function</span>(<span class="params">w,r,ppi</span>)</span>&#123;<span class="keyword">return</span> w*<span class="built_in">Math</span>.sqrt(<span class="number">1</span>+<span class="built_in">Math</span>.pow(r,<span class="number">2</span>))/ppi;&#125;;</div><div class="line"><span class="keyword">var</span> _r=<span class="function"><span class="keyword">function</span>(<span class="params">w,d,ppi</span>)</span>&#123;<span class="keyword">return</span> <span class="built_in">Math</span>.sqrt(<span class="built_in">Math</span>.pow(d*ppi/w,<span class="number">2</span>)<span class="number">-1</span>);&#125;;</div><div class="line"></div><div class="line"><span class="comment">// wpx=1080, hpx=1920, d=5.5, scale=3</span></div><div class="line"><span class="keyword">var</span> _ws = <span class="function"><span class="keyword">function</span>(<span class="params">wpx, hpx, d, scale</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> r = hpx / wpx,</div><div class="line">        wpt=<span class="built_in">Math</span>.round(wpx/scale),</div><div class="line">        hpt=<span class="built_in">Math</span>.round(hpx/scale),</div><div class="line">        ppi=_ppi(wpx, r, d),</div><div class="line">        dppi=<span class="built_in">Math</span>.round(ppi/scale);</div><div class="line">    <span class="keyword">return</span> [<span class="string">''</span>,<span class="built_in">Math</span>.round(ppi),dppi,wpx+<span class="string">'x'</span>+hpx,wpt+<span class="string">'x'</span>+hpt,<span class="string">''</span>].join(<span class="string">'|'</span>);</div><div class="line">&#125;</div><div class="line">_ws(<span class="number">1080</span>, <span class="number">1920</span>, <span class="number">5.5</span>, <span class="number">3</span>);</div></pre></td></tr></table></figure>
+<h2 id="设备数据"><a href="#设备数据" class="headerlink" title="设备数据"></a>设备数据</h2><h3 id="Android-屏幕密度分级"><a href="#Android-屏幕密度分级" class="headerlink" title="Android 屏幕密度分级"></a>Android 屏幕密度分级</h3><p>Android 将物理屏幕密度归纳成六个通用密度：</p>
+<table>
+<thead>
+<tr>
+<th>屏幕密度</th>
+<th>缩放系数</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ldpi/120dpi</td>
+<td>0.75</td>
+<td style="text-align:left">已绝迹，不用考虑</td>
+</tr>
+<tr>
+<td>mdpi/160dpi</td>
+<td>1</td>
+<td style="text-align:left">320x480，市场份额不到1%</td>
+</tr>
+<tr>
+<td>hdpi/240dpi</td>
+<td>1.5</td>
+<td style="text-align:left">480x800,480x854,540x960<br>3.5″左右各种的古董低端机</td>
+</tr>
+<tr>
+<td>xhdpi/320dpi</td>
+<td>2</td>
+<td style="text-align:left">720x1280 4.7″～5.5″ 当前主流低端机，份额下滑中</td>
+</tr>
+<tr>
+<td>xxhdpi/480dpi</td>
+<td>3</td>
+<td style="text-align:left">1080x1920 当前主流中高端机，一般5″以上</td>
+</tr>
+<tr>
+<td>xxxhdpi/640dpi</td>
+<td>4</td>
+<td style="text-align:left">1440x2560 高端机型</td>
+</tr>
+<tr>
+<td>tvdpi/213dpi</td>
+<td>1.33</td>
+<td style="text-align:left">用于电视设备</td>
+</tr>
+<tr>
+<td>nodpi</td>
+<td>n/a</td>
+<td style="text-align:left">无视所有密度</td>
+</tr>
+</tbody>
+</table>
+<p>设计时需要根据需求选择目标屏幕密度，建议使用xxhdpi(scale=3)。</p>
+<p>自API19后增加的几个屏幕密度级别，设计时通常不需要考虑这些密度：</p>
+<table>
+<thead>
+<tr>
+<th>屏幕密度</th>
+<th>缩放系数</th>
+<th>API</th>
+<th>代表机型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>280dpi</td>
+<td>1.75</td>
+<td>22</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>360dpi</td>
+<td>2.25</td>
+<td>23</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>400dpi</td>
+<td>2.5</td>
+<td>19</td>
+<td><code>Meizu MX3 5.1″ 1080x1800</code><br><code>Huawei Honor X2 7″ 1200x1920</code></td>
+</tr>
+<tr>
+<td>420dpi</td>
+<td>2.625</td>
+<td>23</td>
+<td><code>Google Nexus 5X 5.2″ 1080x1920</code> </td>
+</tr>
+<tr>
+<td>560dpi</td>
+<td>3.5</td>
+<td>21</td>
+<td><code>Google Nexus 6P 5.7″ 1440x2560</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="Android-主流分辨率"><a href="#Android-主流分辨率" class="headerlink" title="Android 主流分辨率"></a>Android 主流分辨率</h3><p>取 baidu(2017-02)/qqmta(2017-04)/talkingdata(2017-04) 三家的分辨率统计数据</p>
+<ul>
+<li>1080x1812，1080x1776… 合并到 1080x1920</li>
+<li>720x1184，720x1196… 合并到 720x1280</li>
+<li>480x800… 合并到 480x854</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>resolution</th>
+<th>qqmta</th>
+<th>baidu</th>
+<th>talkingdata</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1440x2560</td>
+<td>n/a</td>
+<td>2.83%</td>
+<td>2.15%</td>
+</tr>
+<tr>
+<td>1080x1920</td>
+<td>46.77%</td>
+<td>37.90%</td>
+<td>44.81%</td>
+</tr>
+<tr>
+<td>720x1280</td>
+<td>25.55%</td>
+<td>36.37%</td>
+<td>31.67%</td>
+</tr>
+<tr>
+<td>540x960</td>
+<td>5.02%</td>
+<td>6.64%</td>
+<td>5.77%</td>
+</tr>
+<tr>
+<td>480x854</td>
+<td>5.08%</td>
+<td>10.59%</td>
+<td>9.55%</td>
+</tr>
+<tr>
+<td>other</td>
+<td>19.6%</td>
+<td>5.67%</td>
+<td>6.05%</td>
+</tr>
+</tbody>
+</table>
+<p>设计通常应该基于逻辑分辨率作图，但仍然需要选一种像素分辨率作为基准<br>1080x1920 已经是占最大份额，且向上向下适配都能保持质量<br>所以设计作图以 1080x1920 为基准比较合适</p>
+<h3 id="Android-主流逻辑宽度"><a href="#Android-主流逻辑宽度" class="headerlink" title="Android 主流逻辑宽度"></a>Android 主流逻辑宽度</h3><blockquote>
+<p>设备逻辑宽度(dp) = 设备宽度(px) / 缩放系数(scale)</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>逻辑宽度</th>
+<th>份额</th>
+<th>代表分辨率与设备</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>360dp</td>
+<td>80+%</td>
+<td>1080x1920(主流增长中), 1440x2560(高端)<br>720x1280(主流下滑中), 540x960(淘汰中)</td>
+</tr>
+<tr>
+<td>320dp</td>
+<td>10+%</td>
+<td>淘汰中(480x854, 480x800)<br>已绝迹(320x480, 240x320)</td>
+</tr>
+<tr>
+<td>384dp</td>
+<td>&lt; 1%</td>
+<td><code>Meizu MX4 Pro 5.5″ 1536x2560 640dpi</code><br><code>Meizu MX4 5.5″ 1152x1920 480dpi</code><br><code>Meizu M1 5.0″ 768x1280 320dpi</code> </td>
+</tr>
+<tr>
+<td>400dp</td>
+<td>&lt; 1%</td>
+<td><code>Meizu MX2 4.4″ 800x1280 320dpi</code></td>
+</tr>
+<tr>
+<td>432dp</td>
+<td>&lt; 1%</td>
+<td><code>Meizu MX3 5.1″ 1080x1800 400dpi</code></td>
+</tr>
+<tr>
+<td>411dp</td>
+<td>&lt; 1%</td>
+<td><code>Le X820 5.7″ 1440x2560 560dpi</code><br><code>Google Nexus 5X 5.2″ 1080x1920 420dpi</code></td>
+</tr>
+<tr>
+<td>480dp</td>
+<td>&lt; 1%</td>
+<td><code>Huawei Honor X2 7.0″ 1200x1920 400dpi</code></td>
+</tr>
+</tbody>
+</table>
+<p>360dp 目前占绝对主流(80+%)，320dp 算少数派(约10%)，基本上适配好这两个就能搞定大部分设备。</p>
+<p>由于 Google 又搞出 560dpi,420dpi 等好几种密度，现在分辨率 1440x2560,1080x1920 中产生了 411dp 这种宽度，不知道以后还会有什么。</p>
+<h3 id="Android-设备屏幕数据"><a href="#Android-设备屏幕数据" class="headerlink" title="Android 设备屏幕数据"></a>Android 设备屏幕数据</h3><ul>
+<li><code>density</code> 列是设备密度，用于计算缩放系数(scale)。</li>
+<li><code>ppi</code> 列是设备的物理密度。</li>
+<li><code>scale</code> 列表是缩放系数。 </li>
+<li><code>dp</code> 列是设备逻辑分辨率。</li>
+<li><code>ratio</code> 列是屏幕比例。</li>
+</ul>
+<p><img src="http://ocrfm2xav.bkt.clouddn.com/16-9-6/4907311.jpg" alt="android phones"></p>
+<p>参考：<a href="https://material.io/devices/" target="_blank" rel="external">https://material.io/devices/</a></p>
+<h3 id="iOS-设备屏幕数据"><a href="#iOS-设备屏幕数据" class="headerlink" title="iOS 设备屏幕数据"></a>iOS 设备屏幕数据</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">device</th>
+<th>resolution</th>
+<th>diagonal</th>
+<th>ppi</th>
+<th>scale</th>
+<th>pt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">iPhone 2g/3g/3gs</td>
+<td>320x480</td>
+<td>3.5</td>
+<td>163</td>
+<td>@1x</td>
+<td>320x480pt</td>
+</tr>
+<tr>
+<td style="text-align:left">iPhone 4/4s</td>
+<td>640x960</td>
+<td>3.5</td>
+<td>326</td>
+<td>@2x</td>
+<td>320x480pt</td>
+</tr>
+<tr>
+<td style="text-align:left">iPhone 5/5s/5c/6se</td>
+<td>640x1136</td>
+<td>4</td>
+<td>326</td>
+<td>@2x</td>
+<td>320x568pt</td>
+</tr>
+<tr>
+<td style="text-align:left">iPhone 6/6s/7</td>
+<td>750x1134</td>
+<td>4.7</td>
+<td>326</td>
+<td>@2x</td>
+<td>375x667pt</td>
+</tr>
+<tr>
+<td style="text-align:left">iPhone 6+/6s+/7+</td>
+<td>1242x2208</td>
+<td>5.5</td>
+<td>401</td>
+<td>@3x</td>
+<td>414x736pt </td>
+</tr>
+<tr>
+<td style="text-align:left">iPad Mini</td>
+<td>768x1024</td>
+<td>7.9</td>
+<td>162</td>
+<td>@1x</td>
+<td>768x1024pt </td>
+</tr>
+<tr>
+<td style="text-align:left">iPad Mini Retina</td>
+<td>1536x2048</td>
+<td>7.9</td>
+<td>324</td>
+<td>@2x</td>
+<td>768x1024pt </td>
+</tr>
+<tr>
+<td style="text-align:left">iPad 1/2</td>
+<td>768x1024</td>
+<td>9.7</td>
+<td>132</td>
+<td>@1x</td>
+<td>768x1024pt</td>
+</tr>
+<tr>
+<td style="text-align:left">iPad 3/4/Air</td>
+<td>1536x2048</td>
+<td>9.7</td>
+<td>264</td>
+<td>@2x</td>
+<td>768x1024pt </td>
+</tr>
+<tr>
+<td style="text-align:left">iPad Pro</td>
+<td>2048x2732</td>
+<td>12.9</td>
+<td>264</td>
+<td>@2x</td>
+<td>1024x1366pt</td>
+</tr>
+</tbody>
+</table>
+<p>结合以上数据可知</p>
+<ul>
+<li>屏幕密度有 @1x/@2x/@3x 三个级别  </li>
+<li>iPad 只有一种逻辑宽度(768pt)</li>
+<li>iPhone 有3种逻辑宽度(414pt,375pt,320pt)</li>
+</ul>
+<p>关于<code>iPhone 6+/6s+/7+</code></p>
+<ul>
+<li>它的缩放系数不再与物理密度相关，渲染缩放系数是3。</li>
+<li>它的物理分辨率是 1080x1920，与渲染分辨率不一致，绘制时最终还是要进行缩放。</li>
+<li>它的渲染分辨率是 1242x2208，对应的逻辑分辨率是(414x736pt)，实际缩放系数(scale)是<code>1080/414=2.608</code>。</li>
+<li>它还有个放大模式(1125x2001)，对应的逻辑分辨率是(375x667pt)，实际缩放系数(scale)是<code>1080/375=2.88</code>。</li>
+</ul>
+<h3 id="iOS-应用图标尺寸"><a href="#iOS-应用图标尺寸" class="headerlink" title="iOS 应用图标尺寸"></a>iOS 应用图标尺寸</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">device or context</th>
+<th>scale</th>
+<th>app</th>
+<th>spotlight</th>
+<th>settings</th>
+<th>notification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">iPhone 6+/6s+/7+</td>
+<td>3x</td>
+<td>60pt</td>
+<td>40pt</td>
+<td>29pt</td>
+<td>20pt</td>
+</tr>
+<tr>
+<td style="text-align:left">iPhone 6/6s/SE/7</td>
+<td>2x</td>
+<td>60pt</td>
+<td>40pt</td>
+<td>29pt</td>
+<td>20pt</td>
+</tr>
+<tr>
+<td style="text-align:left">iPad Pro</td>
+<td>2x</td>
+<td>83.5pt</td>
+<td>40pt</td>
+<td>29pt</td>
+<td>20pt</td>
+</tr>
+<tr>
+<td style="text-align:left">iPad, iPad mini</td>
+<td>2x</td>
+<td>76pt</td>
+<td>40pt</td>
+<td>29pt</td>
+<td>20pt</td>
+</tr>
+<tr>
+<td style="text-align:left">App Store</td>
+<td>/</td>
+<td>1024px</td>
+<td>/</td>
+<td>/</td>
+<td>/</td>
+</tr>
+</tbody>
+</table>
+<p>参考：<a href="https://developer.apple.com/ios/human-interface-guidelines/graphics/app-icon/" target="_blank" rel="external">iOS Human Interface Guidelines - App Icon</a> </p>
+<h3 id="iOS-控件尺寸"><a href="#iOS-控件尺寸" class="headerlink" title="iOS 控件尺寸"></a>iOS 控件尺寸</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">控件</th>
+<th style="text-align:left">控件高度</th>
+<th style="text-align:left">控件内图标尺寸</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">状态栏(Status bar)</td>
+<td style="text-align:left">20pt</td>
+<td style="text-align:left">/</td>
+</tr>
+<tr>
+<td style="text-align:left">标签栏(Tabbar)</td>
+<td style="text-align:left">49pt</td>
+<td style="text-align:left">约 25x25pt, 最大 48x32pt</td>
+</tr>
+<tr>
+<td style="text-align:left">工具栏(Toolbar)</td>
+<td style="text-align:left">44pt</td>
+<td style="text-align:left">约 22x22pt</td>
+</tr>
+<tr>
+<td style="text-align:left">导航栏(Navigation bar)</td>
+<td style="text-align:left">44pt</td>
+<td style="text-align:left">约 22x22pt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="支持多屏"><a href="#支持多屏" class="headerlink" title="支持多屏"></a>支持多屏</h2><h3 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h3><p>使得设备上某一元素在不同屏幕密度、分辨率、尺寸、方向上都具备<strong>合适的</strong>显示与交互效果。</p>
+<ul>
+<li><p><strong>宽度与高度</strong><br>普通手机应用，<strong>大部分时候只需要竖屏显示</strong>，部分需要横屏显示。<br>这时只需要处理分辨率不同带来的问题。<br><strong>优先适配宽度</strong>，少数场景需要要同时适配高度。</p>
+</li>
+<li><p><strong>布局与交互</strong><br>当适配的尺寸跨度很大，比如平板，电视，横竖屏切换。<br>这时可能需要提供不同的布局甚至交互逻辑。</p>
+</li>
+</ul>
+<h3 id="基于逻辑像素"><a href="#基于逻辑像素" class="headerlink" title="基于逻辑像素"></a>基于逻辑像素</h3><p>由于各种屏幕的物理像素密度都有所不同，因此相同数量的物理像素在不同设备上的实际大小也有所差异，这样使用物理像素定义布局尺寸就会产生问题。</p>
+<p>因此应当使用与密度无关的逻辑像素(dp/sp/pt)作为测量单位，这本质上是支持不同的<strong>屏幕密度</strong>。</p>
+<h3 id="控件自适应"><a href="#控件自适应" class="headerlink" title="控件自适应"></a>控件自适应</h3><p>就是适配屏幕的<strong>逻辑分辨率(主要是宽度)</strong>，使控件在不同的逻辑分辨率上都有适当的显示效果。</p>
+<p>方法就是尽量使用<strong>相对位置和尺寸</strong>，比如内边距(padding)/外边距(margin)/对齐(align)/百分比(percent)/权重(weight)/…</p>
+<p>下图中几种常用的自适应方法从上到下依次是：</p>
+<ul>
+<li>图片宽度根据容器自适应，高度等比缩放。</li>
+<li>图片背景使用自动拉伸位图。</li>
+<li>图片宽度固定，高度等比缩放，位置居中。</li>
+<li>元素尺寸不变，间距自适应。 </li>
+<li>中间的元素占满剩余宽度。</li>
+<li>文本流式。</li>
+</ul>
+<p><img src="http://ocrfm2xav.bkt.clouddn.com/16-9-8/341374.jpg" alt="适配规则"></p>
+<h3 id="响应式布局"><a href="#响应式布局" class="headerlink" title="响应式布局"></a>响应式布局</h3><p>当逻辑宽度不断变大到某个宽度，这时多出大量空间，原本的布局与交互流程已经不适应了。<br>这时就以这个宽度为<strong>断点</strong>提供一套新的<strong>布局与交互流程</strong>。 </p>
+<p>Google Material Design 以基于逻辑宽度(dp)的<strong>断点系统</strong>来适配不同尺寸的设备：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">断点(dp)</th>
+<th>竖屏手机(handset)/平板(tablet) </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">360dp</td>
+<td>small handset</td>
+</tr>
+<tr>
+<td style="text-align:left">400dp</td>
+<td>medium handset</td>
+</tr>
+<tr>
+<td style="text-align:left">480dp</td>
+<td>large handset</td>
+</tr>
+<tr>
+<td style="text-align:left">600dp</td>
+<td>small tablet</td>
+</tr>
+<tr>
+<td style="text-align:left">720dp</td>
+<td>large tablet</td>
+</tr>
+<tr>
+<td style="text-align:left">840dp</td>
+<td>large tablet</td>
+</tr>
+<tr>
+<td style="text-align:left">960dp</td>
+<td>n/a </td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>断点系统<br><a href="https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints" target="_blank" rel="external">https://material.io/guidelines/layout/responsive-ui.html#responsive-ui-breakpoints</a></p>
+</blockquote>
+<h2 id="适配流程"><a href="#适配流程" class="headerlink" title="适配流程"></a>适配流程</h2><h3 id="设定基准"><a href="#设定基准" class="headerlink" title="设定基准"></a>设定基准</h3><p>以下为3种常用基准</p>
+<ul>
+<li>360x640dp, 1080x1920, scale=3</li>
+<li>360x640dp, 720x1280, scale=2</li>
+<li>375x667pt, 750x1134, scale=2</li>
+</ul>
+<p>根据实际需求选择合适的基准。<br>目前来说建议使用 <strong>360x640dp, 1080x1920, scale=3</strong>。<br>1080x1920 为目前份额最大的分辨率，向上放大到4x，向下缩小为2x都不会失去太多细节。</p>
+<h3 id="设计适配"><a href="#设计适配" class="headerlink" title="设计适配"></a>设计适配</h3><p>常见设计工具</p>
+<ul>
+<li><code>Photoshop</code> 传统主流设计工具，辅以 cutterman/markman 等工具配合切图与标注。</li>
+<li><code>Illustrator</code> 矢量设计工具。</li>
+<li><code>Sketch</code> 矢量设计工具(Mac Only)，功能强大，插件丰富(导出，标注，占位图，假数据)。</li>
+<li><code>Xd(Experience Design)</code> Adobe 2016年推出与Sketch竞争的产品，简单轻量易上手，生态不足。</li>
+</ul>
+<p>矢量图标库 </p>
+<ul>
+<li><a href="https://material.io/icons/" target="_blank" rel="external">Google Material Design 资源图标</a> </li>
+<li><a href="http://iconfont.cn" target="_blank" rel="external">阿里巴巴矢量图标库</a></li>
+<li><a href="https://icomoon.io/" target="_blank" rel="external">IcoMoon</a></li>
+</ul>
+<p>建议</p>
+<ol>
+<li>工具：优先使用<strong>矢量工具</strong> <code>Sketch</code> &gt; <code>Xd</code> &gt; <code>Illustrator</code> &gt; <code>Photoshop</code>。</li>
+<li>设计：尽量使用<strong>相对位置和尺寸</strong>。</li>
+<li>输出：<strong>切图以2x为主</strong>，失真过多的就输出3x甚至4x，应当<strong>输出一份矢量图标</strong>。</li>
+<li>标注：使用<strong>逻辑度量单位(dp/pt)</strong>，避免换算出小数。</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://material.io/" target="_blank" rel="external">https://material.io/</a><br><a href="https://material.io/devices/" target="_blank" rel="external">https://material.io/devices/</a><br><a href="https://developer.apple.com/ios/human-interface-guidelines" target="_blank" rel="external">https://developer.apple.com/ios/human-interface-guidelines</a><br><a href="https://developer.android.com/training/multiscreen/screensizes.html" target="_blank" rel="external">https://developer.android.com/training/multiscreen/screensizes.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+            <a href="/tags/ios/" rel="tag"># ios</a>
+          
+            <a href="/tags/屏幕适配/" rel="tag"># 屏幕适配</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/p/20170619/【翻译】触摸手势-多点触摸(Handling-Multi-Touch-Gestures)/" rel="next" title="【翻译】触摸手势-多点触摸(Handling Multi-Touch Gestures)">
+                <i class="fa fa-chevron-left"></i> 【翻译】触摸手势-多点触摸(Handling Multi-Touch Gestures)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/p/20170822/Android-7.0-使用FileProvider在应用之间共享文件/" rel="prev" title="Android 7.0-使用FileProvider在应用之间共享文件">
+                Android 7.0-使用FileProvider在应用之间共享文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<div class="social-share"></div>
+
+<!--  css & js -->
+<link rel="stylesheet" href="https://unpkg.com/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://unpkg.com/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+    const gitalk = new Gitalk({
+      clientID: '04e001e904d3e8049513',
+      clientSecret: 'db54df563540700ccd40cca2e3694c9ab9bb65d4',
+      repo: 'czy1121.github.com',
+      owner: 'czy1121',
+      admin: ['czy1121'],
+      // facebook-like distraction free mode
+      distractionFreeMode: false
+    })
+
+    gitalk.render('gitalk-container')
+    </script>
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ezy" />
+          <p class="site-author-name" itemprop="name">ezy</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/czy1121" target="_blank" title="GitHub">
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/1e52f82e7ca7" target="_blank" title="简书">
+                  
+                    
+                      简书
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://gold.xitu.io/user/578637c2c4c971005c4ff063" target="_blank" title="掘金">
+                  
+                    
+                      掘金
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础概念"><span class="nav-number">1.</span> <span class="nav-text">基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常见尺寸单位"><span class="nav-number">1.1.</span> <span class="nav-text">常见尺寸单位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#密度单位"><span class="nav-number">1.2.</span> <span class="nav-text">密度单位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#屏幕尺寸与分辨率"><span class="nav-number">1.3.</span> <span class="nav-text">屏幕尺寸与分辨率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#屏幕方向"><span class="nav-number">1.4.</span> <span class="nav-text">屏幕方向</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑像素单位-dp-sp-pt"><span class="nav-number">1.5.</span> <span class="nav-text">逻辑像素单位(dp/sp/pt)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缩放系数-设备密度"><span class="nav-number">1.6.</span> <span class="nav-text">缩放系数/设备密度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算公式"><span class="nav-number">1.7.</span> <span class="nav-text">计算公式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设备数据"><span class="nav-number">2.</span> <span class="nav-text">设备数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-屏幕密度分级"><span class="nav-number">2.1.</span> <span class="nav-text">Android 屏幕密度分级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-主流分辨率"><span class="nav-number">2.2.</span> <span class="nav-text">Android 主流分辨率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-主流逻辑宽度"><span class="nav-number">2.3.</span> <span class="nav-text">Android 主流逻辑宽度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-设备屏幕数据"><span class="nav-number">2.4.</span> <span class="nav-text">Android 设备屏幕数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS-设备屏幕数据"><span class="nav-number">2.5.</span> <span class="nav-text">iOS 设备屏幕数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS-应用图标尺寸"><span class="nav-number">2.6.</span> <span class="nav-text">iOS 应用图标尺寸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS-控件尺寸"><span class="nav-number">2.7.</span> <span class="nav-text">iOS 控件尺寸</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支持多屏"><span class="nav-number">3.</span> <span class="nav-text">支持多屏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目标"><span class="nav-number">3.1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于逻辑像素"><span class="nav-number">3.2.</span> <span class="nav-text">基于逻辑像素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控件自适应"><span class="nav-number">3.3.</span> <span class="nav-text">控件自适应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#响应式布局"><span class="nav-number">3.4.</span> <span class="nav-text">响应式布局</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#适配流程"><span class="nav-number">4.</span> <span class="nav-text">适配流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设定基准"><span class="nav-number">4.1.</span> <span class="nav-text">设定基准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计适配"><span class="nav-number">4.2.</span> <span class="nav-text">设计适配</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ezy</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

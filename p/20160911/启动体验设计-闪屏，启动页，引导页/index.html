@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android,启动页,闪屏,引导页,ios," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="冷启动(cold start) 冷启动是指应用尚未运行，系统创建进程并初始化应用。  热启动是指应用已经运行但是在后台被挂起，从后台恢复应用。  冷启动时间稍微会长一点，在此期间可能会看到白屏或黑屏或感受到明显的启动延迟(背景设为透明)。解决方法是优化初始化逻辑或使用闪屏。">
+<meta name="keywords" content="android,启动页,闪屏,引导页,ios">
+<meta property="og:type" content="article">
+<meta property="og:title" content="启动体验设计-闪屏，启动页，引导页">
+<meta property="og:url" content="http://reezy.me/p/20160911/启动体验设计-闪屏，启动页，引导页/index.html">
+<meta property="og:site_name" content="RE:从零开始的EZY">
+<meta property="og:description" content="冷启动(cold start) 冷启动是指应用尚未运行，系统创建进程并初始化应用。  热启动是指应用已经运行但是在后台被挂起，从后台恢复应用。  冷启动时间稍微会长一点，在此期间可能会看到白屏或黑屏或感受到明显的启动延迟(背景设为透明)。解决方法是优化初始化逻辑或使用闪屏。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ocrfm2xav.bkt.clouddn.com/16-9-14/58078651.jpg">
+<meta property="og:updated_time" content="2017-08-23T17:36:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="启动体验设计-闪屏，启动页，引导页">
+<meta name="twitter:description" content="冷启动(cold start) 冷启动是指应用尚未运行，系统创建进程并初始化应用。  热启动是指应用已经运行但是在后台被挂起，从后台恢复应用。  冷启动时间稍微会长一点，在此期间可能会看到白屏或黑屏或感受到明显的启动延迟(背景设为透明)。解决方法是优化初始化逻辑或使用闪屏。">
+<meta name="twitter:image" content="http://ocrfm2xav.bkt.clouddn.com/16-9-14/58078651.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://reezy.me/p/20160911/启动体验设计-闪屏，启动页，引导页/"/>
+
+
+
+
+
+  <title>启动体验设计-闪屏，启动页，引导页 | RE:从零开始的EZY</title>
+  
+
+
+
+
+
+
+
+
+
+<script>
+  	var _mtac = {};
+  	(function() {
+  		var mta = document.createElement("script");
+  		mta.src = "https://pingjs.qq.com/h5/stats.js?v2.0.4";
+  		mta.setAttribute("name", "MTAH5");
+  		mta.setAttribute("sid", "500511690");
+
+  		var s = document.getElementsByTagName("script")[0];
+  		s.parentNode.insertBefore(mta, s);
+  	})();
+</script>
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">RE:从零开始的EZY</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://reezy.me/p/20160911/启动体验设计-闪屏，启动页，引导页/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ezy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RE:从零开始的EZY">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">启动体验设计-闪屏，启动页，引导页</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-09-11T00:00:00+08:00">
+                2016-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/产品/" itemprop="url" rel="index">
+                    <span itemprop="name">产品</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="冷启动-cold-start"><a href="#冷启动-cold-start" class="headerlink" title="冷启动(cold start)"></a>冷启动(cold start)</h3><ul>
+<li>冷启动是指应用尚未运行，系统创建进程并初始化应用。 </li>
+<li>热启动是指应用已经运行但是在后台被挂起，从后台恢复应用。</li>
+</ul>
+<p>冷启动时间稍微会长一点，在此期间可能会看到<strong>白屏或黑屏</strong>或感受到明显的启动延迟(背景设为透明)。<br>解决方法是优化初始化逻辑或使用闪屏。</p>
+<a id="more"></a>
+<h3 id="闪屏-splash"><a href="#闪屏-splash" class="headerlink" title="闪屏(splash)"></a>闪屏(splash)</h3><p>闪屏是应用<strong>每次冷启动过程中</strong>展示给用户的一个过渡页面。 </p>
+<p>用于减缓用户在打开应用时等待的焦虑情绪(欺骗用户以掩盖启动慢的事实)。</p>
+<p>由于闪屏通常是一张背景图片，<strong>无法拥有交互，也不能动态修改</strong>，无法承载营销需求，所以需要启动页。</p>
+<h3 id="启动页-launch"><a href="#启动页-launch" class="headerlink" title="启动页(launch)"></a>启动页(launch)</h3><p>启动页(launch)是一个<strong>每次启动后</strong>展示的<strong>类似闪屏</strong>的页面，根据服务端展示不同的些营销活动广告图片并引导用户点击。</p>
+<p>由于下载时间不确定，启动图通常会<strong>缓存并在下次启动时使用</strong>。 </p>
+<h3 id="引导页-guide"><a href="#引导页-guide" class="headerlink" title="引导页(guide)"></a>引导页(guide)</h3><p>引导页是在用户<strong>安装或更新第一次启动后</strong>展示的数个页面。</p>
+<p>通常用于介绍应用的 <strong>核心概念，功能玩法，使用场景，重大变更</strong>。</p>
+<p>为了降低用户反感程度，引导页数通常<strong>越少越好(&lt; 5)，并提供“跳过”按钮</strong>。 </p>
+<p>启动页可以算是形似闪屏且只有一个页面的引导页。 </p>
+<h3 id="启动流程"><a href="#启动流程" class="headerlink" title="启动流程"></a>启动流程</h3><p><img src="http://ocrfm2xav.bkt.clouddn.com/16-9-14/58078651.jpg" alt="启动流程"> </p>
+<p>虽然 Apple 也曾经在《iOS 人机交互手册》里建议尽量不要展示闪屏或其它启动体验。</p>
+<blockquote>
+<p>尽量避免展示闪屏或其它启动体验，让用户能立即使用是最好的。<br>As much as possible, avoid displaying a splash screen or other startup experience. It’s best when users can begin using your app immediately.</p>
+</blockquote>
+<p>然而，闪屏/启动页/引导页 现在已经成为应用标配，一起组成了现在常见的启动流程，同时用于<strong>展示品牌性格，广告营销入口</strong>。</p>
+<h3 id="Android-实现闪屏"><a href="#Android-实现闪屏" class="headerlink" title="Android 实现闪屏"></a>Android 实现闪屏</h3><p>使用 android:windowBackground 实现闪屏</p>
+<ol>
+<li><p>定义背景图 <code>drawable/splash</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;layer-list xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;</div><div class="line">    &lt;item</div><div class="line">        android:drawable=&quot;@color/gray&quot;/&gt;</div><div class="line">    &lt;item&gt;</div><div class="line">        &lt;bitmap</div><div class="line">            android:gravity=&quot;center&quot;</div><div class="line">            android:src=&quot;@mipmap/ic_launcher&quot;/&gt;</div><div class="line">    &lt;/item&gt;</div><div class="line">&lt;/layer-list&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>定义闪屏页主题 <code>ThemeSplash</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;resources&gt; </div><div class="line">    &lt;style name=&quot;ThemeSplash&quot; parent=&quot;Theme.AppCompat.NoActionBar&quot;&gt;</div><div class="line">        &lt;item name=&quot;android:windowBackground&quot;&gt;@drawable/splash&lt;/item&gt;</div><div class="line">    &lt;/style&gt; </div><div class="line">&lt;/resources&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在闪屏页使用主题 <code>ThemeSplash</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;activity</div><div class="line">    android:name=&quot;.SplashActivity&quot;</div><div class="line">    android:theme=&quot;@style/ThemeSplash&quot;&gt;</div><div class="line">    &lt;intent-filter&gt;</div><div class="line">        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;</div><div class="line">        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</div><div class="line">    &lt;/intent-filter&gt;</div><div class="line">&lt;/activity&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>注意：在有虚拟按键的手机上，闪屏底部会会被虚拟按键挡信，这点在设计时需要考虑到。</p>
+<h3 id="iOS-实现闪屏"><a href="#iOS-实现闪屏" class="headerlink" title="iOS 实现闪屏"></a>iOS 实现闪屏</h3><p>有两种方式 </p>
+<ul>
+<li><code>静态启动图集(static launch images)</code>，根据要支持的屏幕尺寸提供 Default.png 系列文件即可。</li>
+<li><code>启动图布局文件(launch screen file)</code>，只需要一个布局文件就可适配各种屏幕。</li>
+</ul>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://www.zhihu.com/question/21686690" target="_blank" rel="external">app为什么要有启动页(Splash screen)</a><br><a href="http://www.jianshu.com/p/dc692bbe7a69" target="_blank" rel="external">APP设计之一：启动页</a><br><a href="http://www.jianshu.com/p/8729c3c33fc2" target="_blank" rel="external">APP设计之二：引导页</a><br><a href="http://www.jianshu.com/p/77054dccafdb" target="_blank" rel="external">iOS开发时如何使用 Launch Screen Storyboard</a><br><a href="http://blog.nimbledroid.com/2016/02/17/cold-start-times-of-top-apps.html?top?=25&amp;category=MUSIC_STREAMING" target="_blank" rel="external">Cold Start Times: An Analysis of Top Apps</a><br><a href="http://saulmm.github.io/avoding-android-cold-starts" target="_blank" rel="external">Avoiding cold starts on Android</a><br><a href="http://www.cocoachina.com/ios/20160105/14870.html" target="_blank" rel="external">Facebook iOS App如何优化启动时间</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+            <a href="/tags/启动页/" rel="tag"># 启动页</a>
+          
+            <a href="/tags/闪屏/" rel="tag"># 闪屏</a>
+          
+            <a href="/tags/引导页/" rel="tag"># 引导页</a>
+          
+            <a href="/tags/ios/" rel="tag"># ios</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/p/20160909/如何修改设备密度?/" rel="next" title="如何修改设备密度?">
+                <i class="fa fa-chevron-left"></i> 如何修改设备密度?
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/p/20160919/【翻译】Android-Studio---创建-Android-Library/" rel="prev" title="【翻译】Android Studio - 创建 Android Library">
+                【翻译】Android Studio - 创建 Android Library <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<div class="social-share"></div>
+
+<!--  css & js -->
+<link rel="stylesheet" href="https://unpkg.com/social-share.js@1.0.16/dist/css/share.min.css">
+<script src="https://unpkg.com/social-share.js@1.0.16/dist/js/social-share.min.js"></script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+
+    <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+    const gitalk = new Gitalk({
+      clientID: '04e001e904d3e8049513',
+      clientSecret: 'db54df563540700ccd40cca2e3694c9ab9bb65d4',
+      repo: 'czy1121.github.com',
+      owner: 'czy1121',
+      admin: ['czy1121'],
+      // facebook-like distraction free mode
+      distractionFreeMode: false
+    })
+
+    gitalk.render('gitalk-container')
+    </script>
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="ezy" />
+          <p class="site-author-name" itemprop="name">ezy</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">69</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/czy1121" target="_blank" title="GitHub">
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/1e52f82e7ca7" target="_blank" title="简书">
+                  
+                    
+                      简书
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://gold.xitu.io/user/578637c2c4c971005c4ff063" target="_blank" title="掘金">
+                  
+                    
+                      掘金
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#冷启动-cold-start"><span class="nav-number">1.</span> <span class="nav-text">冷启动(cold start)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闪屏-splash"><span class="nav-number">2.</span> <span class="nav-text">闪屏(splash)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动页-launch"><span class="nav-number">3.</span> <span class="nav-text">启动页(launch)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引导页-guide"><span class="nav-number">4.</span> <span class="nav-text">引导页(guide)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动流程"><span class="nav-number">5.</span> <span class="nav-text">启动流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android-实现闪屏"><span class="nav-number">6.</span> <span class="nav-text">Android 实现闪屏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iOS-实现闪屏"><span class="nav-number">7.</span> <span class="nav-text">iOS 实现闪屏</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ezy</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+  
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
