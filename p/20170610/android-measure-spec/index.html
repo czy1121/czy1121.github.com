@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MeasureSpec,android,measure,view," />
+  <meta name="keywords" content="android,MeasureSpec,measure,view," />
 
 
 
@@ -97,7 +97,7 @@
 
 
 <meta name="description" content="MeasureSpec 封装了父元素对子元素宽(width)高(height)的布局需求。MeasureSpec 由尺寸(size)与模式(mode)组成。  有以下三种测量模式：    EXACTLY指定了父元素为子元素测量的尺寸。宽高指定为match_parent时，模式通常为EXACTLY。 AT_MOST指定了子元素能取的最大尺寸。宽高指定为wrap_content时，模式通常为AT_MO">
-<meta name="keywords" content="MeasureSpec,android,measure,view">
+<meta name="keywords" content="android,MeasureSpec,measure,view">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android MeasureSpec">
 <meta property="og:url" content="http://reezy.me/p/20170610/android-measure-spec/index.html">
@@ -501,9 +501,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MeasureSpec/" rel="tag"># MeasureSpec</a>
-          
             <a href="/tags/android/" rel="tag"># android</a>
+          
+            <a href="/tags/MeasureSpec/" rel="tag"># MeasureSpec</a>
           
             <a href="/tags/measure/" rel="tag"># measure</a>
           
@@ -843,7 +843,7 @@
     var isfetched = false;
     var isXml = true;
     // Search DB path;
-    var search_path = "";
+    var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
     } else if (/json$/i.test(search_path)) {

@@ -35,13 +35,13 @@
       <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="android" scheme="http://reezy.me/tags/android/"/>
-    
       <category term="7" scheme="http://reezy.me/tags/7/"/>
     
       <category term="安全" scheme="http://reezy.me/tags/%E5%AE%89%E5%85%A8/"/>
     
       <category term="适配" scheme="http://reezy.me/tags/%E9%80%82%E9%85%8D/"/>
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
     
       <category term="FileProvider" scheme="http://reezy.me/tags/FileProvider/"/>
     
@@ -293,9 +293,9 @@
       <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="MeasureSpec" scheme="http://reezy.me/tags/MeasureSpec/"/>
-    
       <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="MeasureSpec" scheme="http://reezy.me/tags/MeasureSpec/"/>
     
       <category term="measure" scheme="http://reezy.me/tags/measure/"/>
     

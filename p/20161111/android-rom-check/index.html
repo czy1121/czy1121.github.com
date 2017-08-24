@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android,适配,rom," />
+  <meta name="keywords" content="适配,android,rom," />
 
 
 
@@ -97,7 +97,7 @@
 
 
 <meta name="description" content="由于 Android 机型繁多，存在着各种定制的ROM，所以在开发应用的过程中，时常需要针对不同的ROM进行适配。 对于深度定制的ROM通常检查/system/build.prop文件中的某些自定义字段(比如ROM版本名)是否存在来判断ROM类型。    一些常见机型的 build.prop文件https://github.com/czy1121/settingscompat/tree/maste">
-<meta name="keywords" content="android,适配,rom">
+<meta name="keywords" content="适配,android,rom">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Rom 检测">
 <meta property="og:url" content="http://reezy.me/p/20161111/android-rom-check/index.html">
@@ -459,9 +459,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/android/" rel="tag"># android</a>
-          
             <a href="/tags/适配/" rel="tag"># 适配</a>
+          
+            <a href="/tags/android/" rel="tag"># android</a>
           
             <a href="/tags/rom/" rel="tag"># rom</a>
           
@@ -799,7 +799,7 @@
     var isfetched = false;
     var isXml = true;
     // Search DB path;
-    var search_path = "";
+    var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
     } else if (/json$/i.test(search_path)) {

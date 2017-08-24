@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="android,7,安全,适配,FileProvider," />
+  <meta name="keywords" content="7,安全,适配,android,FileProvider," />
 
 
 
@@ -97,7 +97,7 @@
 
 
 <meta name="description" content="FileProvider 介绍FileProvider 是 ContentProvider 的一个特殊子类，通过以 content:// 代替 file:/// Uri 来安全地分享与app关联的文件。 ”content URI“允许你给授予临时的读写访问权限。 当你创建一个包含”content URI“的 Intent 时，想要将它发送给另一个app你需要调用Intent.setFlags()添">
-<meta name="keywords" content="android,7,安全,适配,FileProvider">
+<meta name="keywords" content="7,安全,适配,android,FileProvider">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 7.0-使用FileProvider在应用之间共享文件">
 <meta property="og:url" content="http://reezy.me/p/20170822/android-7-fileprovider/index.html">
@@ -491,13 +491,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/android/" rel="tag"># android</a>
-          
             <a href="/tags/7/" rel="tag"># 7</a>
           
             <a href="/tags/安全/" rel="tag"># 安全</a>
           
             <a href="/tags/适配/" rel="tag"># 适配</a>
+          
+            <a href="/tags/android/" rel="tag"># android</a>
           
             <a href="/tags/FileProvider/" rel="tag"># FileProvider</a>
           
@@ -856,7 +856,7 @@
     var isfetched = false;
     var isXml = true;
     // Search DB path;
-    var search_path = "";
+    var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
     } else if (/json$/i.test(search_path)) {
