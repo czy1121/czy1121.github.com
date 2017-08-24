@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>RE:从零开始的EZY</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://reezy.me/"/>
+  <updated>2017-08-23T21:15:29.000Z</updated>
+  <id>http://reezy.me/</id>
+  
+  <author>
+    <name>ezy</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Android 7.0-使用FileProvider在应用之间共享文件</title>
+    <link href="http://reezy.me/p/20170822/android-7-fileprovider/"/>
+    <id>http://reezy.me/p/20170822/android-7-fileprovider/</id>
+    <published>2017-08-21T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;FileProvider-介绍&quot;&gt;&lt;a href=&quot;#FileProvider-介绍&quot; class=&quot;headerlink&quot; title=&quot;FileProvider 介绍&quot;&gt;&lt;/a&gt;FileProvider 介绍&lt;/h3&gt;&lt;p&gt;FileProvider 是 ContentProvider 的一个特殊子类，通过以 &lt;code&gt;content://&lt;/code&gt; 代替 &lt;code&gt;file:///&lt;/code&gt; Uri 来安全地分享与app关联的文件。&lt;/p&gt;
+&lt;p&gt;”content URI“允许你给授予临时的读写访问权限。&lt;/p&gt;
+&lt;p&gt;当你创建一个包含”content URI“的 Intent 时，想要将它发送给另一个app你需要调用&lt;code&gt;Intent.setFlags()&lt;/code&gt;添加权限。Intent被发到Activity时，这些权限在此Activity在栈中活动期间可用。Intent被发到Service时，这些权限在此Service运行期间可用。&lt;/p&gt;
+&lt;p&gt;作为对比，使用&lt;code&gt;file:///&lt;/code&gt; Uri 控制访问，你必须修改文件的文件系统权限。你提供的权限对所有app可用并保持有效直到你改变它们。这种级别的访问从根本上是不安全的。&lt;/p&gt;
+&lt;p&gt;”content URI“提供的文件访问安全性使FileProvider成为Android安全基础设施的一个关键部分。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="7" scheme="http://reezy.me/tags/7/"/>
+    
+      <category term="安全" scheme="http://reezy.me/tags/%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="适配" scheme="http://reezy.me/tags/%E9%80%82%E9%85%8D/"/>
+    
+      <category term="FileProvider" scheme="http://reezy.me/tags/FileProvider/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>移动应用多屏支持</title>
+    <link href="http://reezy.me/p/20170713/mobile-app-multiple-screen-support/"/>
+    <id>http://reezy.me/p/20170713/mobile-app-multiple-screen-support/</id>
+    <published>2017-07-12T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;基础概念&quot;&gt;&lt;a href=&quot;#基础概念&quot; class=&quot;headerlink&quot; title=&quot;基础概念&quot;&gt;&lt;/a&gt;基础概念&lt;/h2&gt;&lt;h3 id=&quot;常见尺寸单位&quot;&gt;&lt;a href=&quot;#常见尺寸单位&quot; class=&quot;headerlink&quot; title=&quot;常见尺寸单位&quot;&gt;&lt;/a&gt;常见尺寸单位&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;mm&lt;/code&gt;毫米，长度单位。`&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;in(inch|″)&lt;/code&gt; 英寸，长度单位，&lt;code&gt;1in=25.4mm&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;px(pixel)&lt;/code&gt; 像素，图像显示的基本单位。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;密度单位&quot;&gt;&lt;a href=&quot;#密度单位&quot; class=&quot;headerlink&quot; title=&quot;密度单位&quot;&gt;&lt;/a&gt;密度单位&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ppi(pixels per inch), px/in&lt;/code&gt; 密度单位，每英寸像素数。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dpi(dots per inch)&lt;/code&gt; 密度单位，每英寸能印刷的点数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ppi 与 dpi 基本上等价。不过iOS一般用ppi，Android一般用dpi。 &lt;/p&gt;
+&lt;h3 id=&quot;屏幕尺寸与分辨率&quot;&gt;&lt;a href=&quot;#屏幕尺寸与分辨率&quot; class=&quot;headerlink&quot; title=&quot;屏幕尺寸与分辨率&quot;&gt;&lt;/a&gt;屏幕尺寸与分辨率&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;对角线长度(diagonal)&lt;/code&gt; 屏幕物理尺寸(英寸)。 &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;分辨率(resolution)&lt;/code&gt; 屏幕上的像素总数，通常写作&lt;code&gt;width*height&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如分辨率1080*1920，表示设备水平方向上有1080个像素，垂直方向有1920个像素。&lt;/p&gt;
+&lt;h3 id=&quot;屏幕方向&quot;&gt;&lt;a href=&quot;#屏幕方向&quot; class=&quot;headerlink&quot; title=&quot;屏幕方向&quot;&gt;&lt;/a&gt;屏幕方向&lt;/h3&gt;&lt;p&gt;手机(handset)与平板(tablet)通常有竖屏横屏两种使用的方向模式。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;竖屏(portrait)&lt;/code&gt;时宽度小于高度。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;横屏(landscape)&lt;/code&gt;时宽度大于高度。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一个分辨率1080*1920的设备。&lt;br&gt;处于竖屏模式时，屏幕宽高为 1080*1920。&lt;br&gt;处于横屏模式时，屏幕宽高为 1920*1080。&lt;/p&gt;
+&lt;h3 id=&quot;逻辑像素单位-dp-sp-pt&quot;&gt;&lt;a href=&quot;#逻辑像素单位-dp-sp-pt&quot; class=&quot;headerlink&quot; title=&quot;逻辑像素单位(dp/sp/pt)&quot;&gt;&lt;/a&gt;逻辑像素单位(dp/sp/pt)&lt;/h3&gt;&lt;p&gt;开发时一般不直接使用物理像素(px)而是使用逻辑像素。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;dp(dip, density-independent pixel)&lt;/code&gt; 密度无关像素，用于定义 Android 布局的位置和尺寸。在160dpi屏上&lt;code&gt;1dp = 1px&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sp(sip, scale-independent pixel)&lt;/code&gt; 缩放无关像素，用于定义文字大小，类似且默认等于 dp，使用此单位可让用户在运行时改变配置调整字体大小。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pt(point)&lt;/code&gt; 点，iOS 开发中用的逻辑像素单位，与 dp 基本上等价。 &lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dp/in, pt/in&lt;/code&gt; 逻辑密度，每英寸逻辑像素数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;缩放系数-设备密度&quot;&gt;&lt;a href=&quot;#缩放系数-设备密度&quot; class=&quot;headerlink&quot; title=&quot;缩放系数/设备密度&quot;&gt;&lt;/a&gt;缩放系数/设备密度&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;缩放系数(scale)&lt;/code&gt; 逻辑像素渲染时的缩放比例因子，通过设备密度换算得到。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;设备密度(device density)&lt;/code&gt; Android厂商或ROM设置的虚拟屏幕密度，用户也能修改，用于计算缩放系数。    &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;计算公式&quot;&gt;&lt;a href=&quot;#计算公式&quot; class=&quot;headerlink&quot; title=&quot;计算公式&quot;&gt;&lt;/a&gt;计算公式&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;高宽比($r$)  &lt;/p&gt;
+&lt;p&gt;$r ={h \over w}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;宽($w_{px}$), 高($w_{px}$), 高宽比($r$), 对角线($d_{in}$)，密度($ppi_{px}$) 换算：&lt;/p&gt;
+&lt;p&gt;$ppi_{px}$ = ${d_{px} \over d_{in}}$ = $\sqrt{ w_{px}^2 + h_{px}^2 } \over d_{in}$ = $w_{px} \cdot \sqrt{ 1 + r^2 } \over d_{in}$ &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;  以屏幕尺寸为4寸的iPhone 5为例，分辨率为1136x640，像素密度为326ppi。 而分辨率为1920x1080的家用21.5寸显示器，像素密度为103ppi。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;根据设备密度($density$)计算缩放系数($scale$)&lt;/p&gt;
+&lt;p&gt;$scale = {density \over 160}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;根据缩放系数($scale$)，计算对应的逻辑单位(dp/pt)值&lt;/p&gt;
+&lt;p&gt;$w_{dp}={w_{px} \over scale}$  &lt;/p&gt;
+&lt;p&gt;$h_{dp}={h_{px} \over scale}$ &lt;/p&gt;
+&lt;p&gt;$ppi_{dp}={ppi_{px} \over scale}$&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="ios" scheme="http://reezy.me/tags/ios/"/>
+    
+      <category term="屏幕适配" scheme="http://reezy.me/tags/%E5%B1%8F%E5%B9%95%E9%80%82%E9%85%8D/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【翻译】触摸手势-多点触摸(Handling Multi-Touch Gestures)</title>
+    <link href="http://reezy.me/p/20170619/android-touch-gesture-multi-touch/"/>
+    <id>http://reezy.me/p/20170619/android-touch-gesture-multi-touch/</id>
+    <published>2017-06-18T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.android.com/training/gestures/multi.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://developer.android.com/training/gestures/multi.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;多点触摸手势就是多个指针（手指）同时触摸屏幕。本课介绍如何检测涉及多个指针的手势。&lt;/p&gt;
+&lt;h2 id=&quot;跟踪多个指针-Track-Multiple-Pointers&quot;&gt;&lt;a href=&quot;#跟踪多个指针-Track-Multiple-Pointers&quot; class=&quot;headerlink&quot; title=&quot;跟踪多个指针(Track Multiple Pointers)&quot;&gt;&lt;/a&gt;跟踪多个指针(Track Multiple Pointers)&lt;/h2&gt;&lt;p&gt;当多个指针同时触摸屏幕时，系统会生成以下触摸事件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;ACTION_DOWN&lt;/strong&gt; 触摸屏幕的第一个指针。启动手势，指针索引始终为0。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ACTION_POINTER_DOWN&lt;/strong&gt; 第一个指针之外的其它进入屏幕的指针。其指针索引由getActionIndex()返回。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ACTION_MOVE&lt;/strong&gt; press手势期间指针发生了更改。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ACTION_POINTER_UP&lt;/strong&gt; 非主指针离开屏幕。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ACTION_UP&lt;/strong&gt; 最后一个指针离开屏幕。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;您通过每个指针的索引和ID跟踪MotionEvent中的各个指针：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;索引(Index)：MotionEvent将有关每个指针的信息存储在数组中。指针的索引是其在此数组内的位置。用于与指针交互的大多数MotionEvent方法都将指针索引作为参数，而不是指针ID。&lt;/li&gt;
+&lt;li&gt;ID：每个指针还具有一个ID映射，在触摸事件中保持持续，以允许&lt;strong&gt;跨整个手势跟踪单个指针&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="翻译" scheme="http://reezy.me/tags/%E7%BF%BB%E8%AF%91/"/>
+    
+      <category term="gesture" scheme="http://reezy.me/tags/gesture/"/>
+    
+      <category term="multi-touch" scheme="http://reezy.me/tags/multi-touch/"/>
+    
+      <category term="pointer" scheme="http://reezy.me/tags/pointer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【翻译】触摸手势-跟踪移动(Tracking Movement)</title>
+    <link href="http://reezy.me/p/20170618/android-touch-gesture-tracking-movement/"/>
+    <id>http://reezy.me/p/20170618/android-touch-gesture-tracking-movement/</id>
+    <published>2017-06-17T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.android.com/training/gestures/movement.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://developer.android.com/training/gestures/movement.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;跟踪移动-Tracking-Movement&quot;&gt;&lt;a href=&quot;#跟踪移动-Tracking-Movement&quot; class=&quot;headerlink&quot; title=&quot;跟踪移动(Tracking Movement)&quot;&gt;&lt;/a&gt;跟踪移动(Tracking Movement)&lt;/h2&gt;&lt;p&gt;当触摸点位置，压力或尺寸发生变化时，会触发一个新的 MotionEvent.ACTION_MOVE 事件。 &lt;/p&gt;
+&lt;p&gt;因为基于手指的触摸并不总是最精确的交互形式，因此&lt;strong&gt;检测触摸事件通常更多地基于移动&lt;/strong&gt;而不是简单的接触。 为了帮助应用程序区分基于移动的手势（例如swipe）和非移动手势（例如single tap），Android包括“touch slop”的概念。 &lt;strong&gt;“touch slop”&lt;/strong&gt;是指用户的触摸可以在手势被解释为基于运动的手势之前漫游的距离（以像素为单位）。 有关此主题的更多讨论，请参阅管理ViewGroup中的触摸事件。&lt;/p&gt;
+&lt;p&gt;根据您的应用需求，有几种不同的方式来跟踪手势中的移动。 例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;指针的开始和结束位置(例如，将屏幕对象从点A移动到点B)。&lt;/li&gt;
+&lt;li&gt;指针正在行进的方向，由x和y坐标确定。&lt;/li&gt;
+&lt;li&gt;手势历史。&lt;br&gt;通过调用MotionEvent方法getHistorySize()可以得到手势历史的大小。&lt;br&gt;然后，可以使用MotionEvent的getHistorical&lt;value&gt;方法获取每个历史事件的位置，大小，时间和压力。 渲染用户手指的踪迹(例如触摸绘图)时，历史记录非常有用。 有关详细信息，请参阅MotionEvent参考。&lt;/value&gt;&lt;/li&gt;
+&lt;li&gt;指针在触摸屏上移动时的速度。&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="翻译" scheme="http://reezy.me/tags/%E7%BF%BB%E8%AF%91/"/>
+    
+      <category term="gesture" scheme="http://reezy.me/tags/gesture/"/>
+    
+      <category term="motion" scheme="http://reezy.me/tags/motion/"/>
+    
+      <category term="slop" scheme="http://reezy.me/tags/slop/"/>
+    
+      <category term="touch" scheme="http://reezy.me/tags/touch/"/>
+    
+      <category term="track" scheme="http://reezy.me/tags/track/"/>
+    
+      <category term="velocity" scheme="http://reezy.me/tags/velocity/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android fitsSystemWindows与WindowInsets</title>
+    <link href="http://reezy.me/p/20170611/android-fitsSystemWindows-WindowInsets/"/>
+    <id>http://reezy.me/p/20170611/android-fitsSystemWindows-WindowInsets/</id>
+    <published>2017-06-10T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://developer.android.com/reference/android/view/WindowInsets.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://developer.android.com/reference/android/view/WindowInsets.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;fitsSystemWindows&quot;&gt;&lt;a href=&quot;#fitsSystemWindows&quot; class=&quot;headerlink&quot; title=&quot;fitsSystemWindows&quot;&gt;&lt;/a&gt;fitsSystemWindows&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;View#setFitsSystemWindows&lt;/strong&gt;&lt;br&gt;&lt;code&gt;void setFitsSystemWindows(boolean fitSystemWindows)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;设置此视图是否应考虑系统屏幕装饰(例如状态栏)并插入其内容，即控制&lt;code&gt;View#fitSystemWindows(Rect)&lt;/code&gt;的默认实现是否执行&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;View#dispatchApplyWindowInsets&lt;/strong&gt;&lt;br&gt;&lt;code&gt;WindowInsets dispatchApplyWindowInsets(WindowInsets insets)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;派发请求到这个视图或其子树中的其它视图，以应用给定的 window insets &lt;/p&gt;
+&lt;p&gt;此方法应该由希望应用与窗口装饰或覆盖层遮蔽的区域对应的inset的客户端来调用。&lt;br&gt;可以包括状态和导航栏，动作栏，输入法等等。 未来可能会添加新的inset类别。&lt;br&gt;该方法返回提供的 inset 减去了此视图或其子节点应用的任何值。&lt;/p&gt;
+&lt;p&gt;希望提供自定义行为的客户端应该覆盖onApplyWindowInsets(WindowInsets)方法，或者通过setOnApplyWindowInsetsListener方法提供一个View.OnApplyWindowInsetsListener。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;View#onApplyWindowInsets&lt;/strong&gt;&lt;br&gt;&lt;code&gt;WindowInsets onApplyWindowInsets(WindowInsets insets)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;视图根据其内部策略应用WindowInsets时调用，可以覆盖此方法来应用与默认行为不同的策略。  &lt;/p&gt;
+&lt;p&gt;该方法的实现应该返回&lt;strong&gt;未修改的insets参数&lt;/strong&gt;，或&lt;strong&gt;从insets参数克隆且消耗了此视图所应用inset的新WindowInsets&lt;/strong&gt;。这允许在不改变现有实现就可以在未来平台版本中添加的新inset类型而不会被错误地消耗。&lt;/p&gt;
+&lt;p&gt;默认情况下，如果设置了fitsSystemWindows属性，视图将&lt;strong&gt;消耗系统窗口inset并将其用作padding&lt;/strong&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;View#setOnApplyWindowInsetsListener&lt;/strong&gt;&lt;br&gt;&lt;code&gt;void setOnApplyWindowInsetsListener(View.OnApplyWindowInsetsListener listener)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;提供以自定义方式在视图上应用窗口insets的监听器。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;如果设置了此监听器，将不会调用View#onApplyWindowInsets方法。&lt;/strong&gt;&lt;br&gt;如有需要可以在监听器的实现中调用View#onApplyWindowInsets。  &lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;java&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;OnApplyWindowInsetsListener&lt;/span&gt; &lt;/span&gt;{ 
+    &lt;span class=&quot;function&quot;&gt;WindowInsetsCompat &lt;span class=&quot;title&quot;&gt;onApplyWindowInsets&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(View v, WindowInsetsCompat insets)&lt;/span&gt;&lt;/span&gt;;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;View#fitSystemWindows&lt;/strong&gt;&lt;br&gt;&lt;code&gt;boolean fitSystemWindows(Rect)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;此方法已于API20废弃，改用dispatchApplyWindowInsets。 &lt;/p&gt;
+&lt;p&gt;该方法的默认实现方式只是&lt;strong&gt;将内容inset到视图的padding中，消耗该内容(修改insets为0)，并返回true&lt;/strong&gt;。&lt;br&gt;此行为默认关闭，可以通过setFitsSystemWindows(boolean)启用。 &lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="insets" scheme="http://reezy.me/tags/insets/"/>
+    
+      <category term="window" scheme="http://reezy.me/tags/window/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android MeasureSpec</title>
+    <link href="http://reezy.me/p/20170610/android-measure-spec/"/>
+    <id>http://reezy.me/p/20170610/android-measure-spec/</id>
+    <published>2017-06-09T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;MeasureSpec&lt;/code&gt; 封装了父元素对子元素宽(width)高(height)的布局需求。&lt;br&gt;&lt;code&gt;MeasureSpec&lt;/code&gt; 由尺寸(size)与模式(mode)组成。 &lt;/p&gt;
+&lt;p&gt;有以下三种测量模式：  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;EXACTLY&lt;/strong&gt;&lt;br&gt;指定了父元素为子元素测量的尺寸。&lt;br&gt;宽高指定为match_parent时，模式通常为EXACTLY。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AT_MOST&lt;/strong&gt;&lt;br&gt;指定了子元素能取的最大尺寸。&lt;br&gt;宽高指定为wrap_content时，模式通常为AT_MOST。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;UNSPECIFIED&lt;/strong&gt;&lt;br&gt;父元素没有对子元素施加任何限制，它可以取任意尺寸。&lt;br&gt;当视图的宽高值未设置或设置为0时，模式为UNSPECIFIED。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;子view的尺寸由 &lt;strong&gt;父view的MeasureSpec&lt;/strong&gt; 与 &lt;strong&gt;子view的LayoutParams&lt;/strong&gt; 共同决定。&lt;/p&gt;
+&lt;p&gt;下表由 &lt;code&gt;ViewGroup#getChildMeasureSpec&lt;/code&gt; 方法总结得来：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一行为父view的测量模式&lt;/li&gt;
+&lt;li&gt;第一列为子view指定的尺寸&lt;/li&gt;
+&lt;li&gt;size为父view指定的尺寸减去边距后的值&lt;/li&gt;
+&lt;li&gt;childSize为子view指定的精确值&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="MeasureSpec" scheme="http://reezy.me/tags/MeasureSpec/"/>
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="measure" scheme="http://reezy.me/tags/measure/"/>
+    
+      <category term="view" scheme="http://reezy.me/tags/view/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Java命名规范</title>
+    <link href="http://reezy.me/p/20170517/spec-naming-java/"/>
+    <id>http://reezy.me/p/20170517/spec-naming-java/</id>
+    <published>2017-05-16T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;基本原则&quot;&gt;&lt;a href=&quot;#基本原则&quot; class=&quot;headerlink&quot; title=&quot;基本原则&quot;&gt;&lt;/a&gt;基本原则&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;在无歧义的前提下，命名力求简洁&lt;/li&gt;
+&lt;li&gt;在语义明了的前提下，命名力求省力，如果可以同时不按shift，则不按&lt;/li&gt;
+&lt;li&gt;一个标识符最好一个单词，尽量不要超过3个单词，每个单词尽量不要超过10个字符&lt;/li&gt;
+&lt;li&gt;单词应当拼写正确完整&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="文档规范" scheme="http://reezy.me/categories/%E6%96%87%E6%A1%A3%E8%A7%84%E8%8C%83/"/>
+    
+    
+      <category term="java" scheme="http://reezy.me/tags/java/"/>
+    
+      <category term="spec" scheme="http://reezy.me/tags/spec/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>常用词汇表</title>
+    <link href="http://reezy.me/p/20170517/spec-glossary/"/>
+    <id>http://reezy.me/p/20170517/spec-glossary/</id>
+    <published>2017-05-16T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;列举一些常用词汇&lt;strong&gt;以供参考&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&quot;缩写&quot;&gt;&lt;a href=&quot;#缩写&quot; class=&quot;headerlink&quot; title=&quot;缩写&quot;&gt;&lt;/a&gt;缩写&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;ev    事件 event&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;ex    异常 exception&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;op    操作 operation&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;del   删除 delete&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;cmd   命令 command&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;len   长度 length&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;obj   对象 object&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;arr   数组 array&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;str   字符串 string&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;init  初始化 initialize&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;ctor  构造器 contructor  &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;opts  选项 options&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;args  参数 arguments&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;缩写-UI&quot;&gt;&lt;a href=&quot;#缩写-UI&quot; class=&quot;headerlink&quot; title=&quot;缩写 - UI&quot;&gt;&lt;/a&gt;缩写 - UI&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;lyt 	布局 layout&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;btn 	按钮 button&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;txt 	文本 text &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;lbl 	标签 label&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;fld 	字段 field &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;img 	图片 image &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;ctrl	控件 control&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="文档规范" scheme="http://reezy.me/categories/%E6%96%87%E6%A1%A3%E8%A7%84%E8%8C%83/"/>
+    
+    
+      <category term="spec" scheme="http://reezy.me/tags/spec/"/>
+    
+      <category term="词汇表" scheme="http://reezy.me/tags/%E8%AF%8D%E6%B1%87%E8%A1%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android WebView 详解 </title>
+    <link href="http://reezy.me/p/20170515/android-webview/"/>
+    <id>http://reezy.me/p/20170515/android-webview/</id>
+    <published>2017-05-14T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;相关API&quot;&gt;&lt;a href=&quot;#相关API&quot; class=&quot;headerlink&quot; title=&quot;相关API&quot;&gt;&lt;/a&gt;相关API&lt;/h2&gt;&lt;h3 id=&quot;相关类介绍&quot;&gt;&lt;a href=&quot;#相关类介绍&quot; class=&quot;headerlink&quot; title=&quot;相关类介绍&quot;&gt;&lt;/a&gt;相关类介绍&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.android.com/reference/android/webkit/WebResourceRequest.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;WebResourceRequest&lt;/a&gt; 添加于API21，封装了一个Web资源的请求信息，包含：请求地址，请求方法，请求头，是否主框架，是否用户点击，是否重定向&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.android.com/reference/android/webkit/WebResourceResponse.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;WebResourceResponse&lt;/a&gt; 封装了一个Web资源的响应信息，包含：响应数据流，编码，MIME类型，API21后添加了响应头，状态码与状态描述&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.android.com/reference/android/webkit/WebResourceError.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;WebResourceError&lt;/a&gt; 添加于API23，封装了一个Web资源的错误信息，包含错误码和描述&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.android.com/reference/android/webkit/CookieManager.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;CookieManager&lt;/a&gt; 管理用于WebView的cookies。。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.android.com/reference/android/webkit/WebViewDatabase.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;WebViewDatabase&lt;/a&gt; 存储与管理以下几类浏览数据：&lt;ul&gt;
+&lt;li&gt;表单自动填充的的用户名与密码&lt;/li&gt;
+&lt;li&gt;HTTP认证的用户名与密码&lt;/li&gt;
+&lt;li&gt;曾经输入过的文本(比如自动完成)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.android.com/reference/android/webkit/WebStorage.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;WebStorage&lt;/a&gt; 用于管理WebView提供的JS存储API，比如Application Cache API，Web SQL Database API，HTML5 Web Storage API&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.android.com/reference/android/webkit/GeolocationPermissions.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GeolocationPermissions&lt;/a&gt; 用于管理WebView的JS Geolocation API&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.android.com/reference/android/webkit/HttpAuthHandler.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;HttpAuthHandler&lt;/a&gt; 表示一个HTTP认证请求，提供了方法操作(proceed/cancel)请求 &lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.android.com/reference/android/webkit/SslErrorHandler.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;SslErrorHandler&lt;/a&gt; 表示一个处理SSL错误的请求，提供了方法操作(proceed/cancel)请求 &lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.android.com/reference/android/webkit/ClientCertRequest.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ClientCertRequest&lt;/a&gt; 表示一个证书请求，提供了方法操作(proceed/cancel/ignore)请求 &lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://developer.android.com/reference/android/webkit/JsResult.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;JsResult&lt;/a&gt; 用于处理底层JS发起的请求，为客户端提供一些方法指明应进行的操作，比如确认或取消。&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="cookie" scheme="http://reezy.me/tags/cookie/"/>
+    
+      <category term="fullscreen" scheme="http://reezy.me/tags/fullscreen/"/>
+    
+      <category term="javascript" scheme="http://reezy.me/tags/javascript/"/>
+    
+      <category term="webview" scheme="http://reezy.me/tags/webview/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SSL与TLS</title>
+    <link href="http://reezy.me/p/20170421/ssl-tls/"/>
+    <id>http://reezy.me/p/20170421/ssl-tls/</id>
+    <published>2017-04-20T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;参考：&lt;a href=&quot;https://segmentfault.com/a/1190000002554673&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;SSL/TLS原理详解&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;安全套接字层-Secure-Socket-
+    
+    </summary>
+    
+      <category term="基础知识" scheme="http://reezy.me/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    
+    
+      <category term="openssl" scheme="http://reezy.me/tags/openssl/"/>
+    
+      <category term="ssl" scheme="http://reezy.me/tags/ssl/"/>
+    
+      <category term="tls" scheme="http://reezy.me/tags/tls/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>公钥证书相关概念</title>
+    <link href="http://reezy.me/p/20170421/pki-ca-cert/"/>
+    <id>http://reezy.me/p/20170421/pki-ca-cert/</id>
+    <published>2017-04-20T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;公钥基础设施-Public-Key-Infrastructure-PKI&quot;&gt;&lt;a href=&quot;#公钥基础设施-Public-Key-Infrastructure-PKI&quot; class=&quot;headerlink&quot; title=&quot;公钥基础设施(Public Key Infrastructure, PKI)&quot;&gt;&lt;/a&gt;公钥基础设施(Public Key Infrastructure, PKI)&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/PKI&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;PKI&lt;/a&gt;是一组由硬件、软件、参与者、管理政策与流程组成的基础架构，其目的在于创造、管理、分配、使用、存储以及撤销数字证书。&lt;/p&gt;
+&lt;h3 id=&quot;公钥密码学标准-Public-Key-Cryptography-Standards-PKCS&quot;&gt;&lt;a href=&quot;#公钥密码学标准-Public-Key-Cryptography-Standards-PKCS&quot; class=&quot;headerlink&quot; title=&quot;公钥密码学标准(Public Key Cryptography Standards, PKCS)&quot;&gt;&lt;/a&gt;公钥密码学标准(Public Key Cryptography Standards, PKCS)&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;https://zh.wikipedia.org/wiki/公钥密码学标准&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;公钥密码学标准&lt;/a&gt; 最初是为推进公钥密码系统的互操作性，由RSA实验室与工业界、学术界和政府代表合作开发的。在RSA带领下，PKCS的研究随着时间不断发展，它涉及了不断发展的PKI格式标准、算法和应用程序接口。PKCS标准提供了基本的数据格式定义和算法定义，它们实际是今天所有PKI实现的基础。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="基础知识" scheme="http://reezy.me/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    
+    
+      <category term="证书" scheme="http://reezy.me/tags/%E8%AF%81%E4%B9%A6/"/>
+    
+      <category term="CA" scheme="http://reezy.me/tags/CA/"/>
+    
+      <category term="CSR" scheme="http://reezy.me/tags/CSR/"/>
+    
+      <category term="DER" scheme="http://reezy.me/tags/DER/"/>
+    
+      <category term="PEM" scheme="http://reezy.me/tags/PEM/"/>
+    
+      <category term="PKCS" scheme="http://reezy.me/tags/PKCS/"/>
+    
+      <category term="PKI" scheme="http://reezy.me/tags/PKI/"/>
+    
+      <category term="X.509" scheme="http://reezy.me/tags/X-509/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>编码|摘要|加密</title>
+    <link href="http://reezy.me/p/20170420/encoding-digest-encryption/"/>
+    <id>http://reezy.me/p/20170420/encoding-digest-encryption/</id>
+    <published>2017-04-19T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;编码-encoding&quot;&gt;&lt;a href=&quot;#编码-encoding&quot; class=&quot;headerlink&quot; title=&quot;编码(encoding)&quot;&gt;&lt;/a&gt;编码(encoding)&lt;/h2&gt;&lt;p&gt;编码本质上是信息形式的转化。&lt;/p&gt;
+&lt;p&gt;通过解码可以还原原始
+    
+    </summary>
+    
+      <category term="基础知识" scheme="http://reezy.me/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    
+    
+      <category term="加密" scheme="http://reezy.me/tags/%E5%8A%A0%E5%AF%86/"/>
+    
+      <category term="编码" scheme="http://reezy.me/tags/%E7%BC%96%E7%A0%81/"/>
+    
+      <category term="摘要" scheme="http://reezy.me/tags/%E6%91%98%E8%A6%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【转载】安全体系—加解密算法、消息摘要、消息认证技术、数字签名与公钥证书</title>
+    <link href="http://reezy.me/p/20170417/security-encryption-digest-mac-signature-certificate/"/>
+    <id>http://reezy.me/p/20170417/security-encryption-digest-mac-signature-certificate/</id>
+    <published>2017-04-16T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;转载自：&lt;a href=&quot;http://www.cnblogs.com/songwenlong/p/6517165.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.cnblogs.com/songwenlong/p/6517165.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;概述&quot;&gt;&lt;a href=&quot;#概述&quot; class=&quot;headerlink&quot; title=&quot;概述&quot;&gt;&lt;/a&gt;概述&lt;/h2&gt;&lt;p&gt;当发送方A向接收方B发送数据时，需要考虑的问题有：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;数据的&lt;strong&gt;安全性&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;数据的&lt;strong&gt;完整性&lt;/strong&gt;，即数据不被篡改。&lt;/li&gt;
+&lt;li&gt;数据的&lt;strong&gt;真实性&lt;/strong&gt;，即数据确实来自于发送方，传输过程中没有被替换。&lt;/li&gt;
+&lt;li&gt;数据的&lt;strong&gt;不可否认性&lt;/strong&gt;，即验证发送方确实发送了数据。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;本文只是对整套体系做一个整体的介绍，后续文章详细讲解各个步骤和算法。&lt;/p&gt;
+&lt;p&gt;本文的整体结构见下图。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://ocrfm2xav.bkt.clouddn.com/17-4-17/37315103-file_1492429024497_1202e.png&quot; alt=&quot;整体结构&quot;&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="基础知识" scheme="http://reezy.me/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    
+    
+      <category term="安全" scheme="http://reezy.me/tags/%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="加密" scheme="http://reezy.me/tags/%E5%8A%A0%E5%AF%86/"/>
+    
+      <category term="解密" scheme="http://reezy.me/tags/%E8%A7%A3%E5%AF%86/"/>
+    
+      <category term="数据签名" scheme="http://reezy.me/tags/%E6%95%B0%E6%8D%AE%E7%AD%BE%E5%90%8D/"/>
+    
+      <category term="数字摘要" scheme="http://reezy.me/tags/%E6%95%B0%E5%AD%97%E6%91%98%E8%A6%81/"/>
+    
+      <category term="证书" scheme="http://reezy.me/tags/%E8%AF%81%E4%B9%A6/"/>
+    
+      <category term="转载" scheme="http://reezy.me/tags/%E8%BD%AC%E8%BD%BD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【转载】PKI体系（公钥基础设施）</title>
+    <link href="http://reezy.me/p/20170415/pki-public-key-infrastructure/"/>
+    <id>http://reezy.me/p/20170415/pki-public-key-infrastructure/</id>
+    <published>2017-04-14T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;转载自：&lt;a href=&quot;http://blog.sina.com.cn/s/blog_afd4c4ef0102w20n.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://blog.sina.com.cn/s/blog_afd4c4ef0102w20n.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;h3 id=&quot;定义&quot;&gt;&lt;a href=&quot;#定义&quot; class=&quot;headerlink&quot; title=&quot;定义&quot;&gt;&lt;/a&gt;定义&lt;/h3&gt;&lt;p&gt;公钥基础设施PKI（Public Key Infrastructure），是一种遵循既定标准的密钥管理平台，它能够为所有网络应用提供加密和数字签名等密码服务及所必需的密钥和证书管理体系，简单来说，PKI就是利用公钥理论和技术建立的提供安全服务的基础设施。PKI技术是信息安全技术的核心，也是电子商务的关键和基础技术。&lt;/p&gt;
+&lt;h3 id=&quot;目的&quot;&gt;&lt;a href=&quot;#目的&quot; class=&quot;headerlink&quot; title=&quot;目的&quot;&gt;&lt;/a&gt;目的&lt;/h3&gt;&lt;p&gt;PKI技术能够为网络通信和网络交易，特别是电子政务和电子商务业务，透明地提供一整套安全服务，主要包括身份认证、保密、数据完整性和不可否认性。&lt;br&gt;作为一种基础设施，PKI的应用范围非常广泛，并且在不断发展之中，下面给出几个常见的应用场景。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;虚拟专用网络VPN（Virtual Private Network）&lt;/strong&gt;&lt;br&gt;VPN是一种构建在公用通信基础设施上的专用数据通信网络，利用网络层安全协议（如IPSec）和建立在PKI上的加密与数字签名技术来获得机密性保护。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;安全电子邮件&lt;/strong&gt;&lt;br&gt;电子邮件的安全也要求机密、完整、认证和不可否认，而这些都可以利用PKI技术来实现。目前发展很快的安全/多用途Internet邮件扩充协议S/MIME(Secure/Multipurpose Internet Mail Extensions)，是一个允许发送加密和有签名邮件的协议，该协议的实现需要依赖于PKI技术。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Web安全&lt;/strong&gt;&lt;br&gt;为了透明地解决Web的安全问题，在两个实体进行通信之前，先要建立SSL（Secure Sockets Layer，安全套接层）连接，以此实现对应用层透明的安全通信。利用PKI技术，SSL协议允许在浏览器和服务器之间进行加密通信。此外，服务器端和浏览器端通信时双方可以通过数字证书确认对方的身份。&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="基础知识" scheme="http://reezy.me/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    
+    
+      <category term="证书" scheme="http://reezy.me/tags/%E8%AF%81%E4%B9%A6/"/>
+    
+      <category term="转载" scheme="http://reezy.me/tags/%E8%BD%AC%E8%BD%BD/"/>
+    
+      <category term="公钥基础设施" scheme="http://reezy.me/tags/%E5%85%AC%E9%92%A5%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD/"/>
+    
+      <category term="pki" scheme="http://reezy.me/tags/pki/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用 brew 和 brew-cask 安装常用程序</title>
+    <link href="http://reezy.me/p/20170403/install-apps-by-brew-cask/"/>
+    <id>http://reezy.me/p/20170403/install-apps-by-brew-cask/</id>
+    <published>2017-04-02T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Mac平台的包管理工具 &lt;a href=&quot;http://brew.sh/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;homebrew&lt;/a&gt; 和 &lt;a href=&quot;https://caskroom.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;homebrew-cask&lt;/a&gt; &lt;/p&gt;
+&lt;h3 id=&quot;安装-brew&quot;&gt;&lt;a href=&quot;#安装-brew&quot; class=&quot;headerlink&quot; title=&quot;安装 brew&quot;&gt;&lt;/a&gt;安装 brew&lt;/h3&gt;&lt;p&gt;将以下命令粘贴至终端运行&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;/usr/bin/ruby -e &lt;span class=&quot;string&quot;&gt;&quot;&lt;span class=&quot;variable&quot;&gt;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&lt;/span&gt;&quot;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;安装-brew-cask&quot;&gt;&lt;a href=&quot;#安装-brew-cask&quot; class=&quot;headerlink&quot; title=&quot;安装 brew-cask&quot;&gt;&lt;/a&gt;安装 brew-cask&lt;/h3&gt;&lt;p&gt;homevbrew 已集成 homebrew-cask，不需要额外安装了 &lt;/p&gt;
+    
+    </summary>
+    
+      <category term="工具" scheme="http://reezy.me/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="工具" scheme="http://reezy.me/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="brew" scheme="http://reezy.me/tags/brew/"/>
+    
+      <category term="brew-cask" scheme="http://reezy.me/tags/brew-cask/"/>
+    
+      <category term="homebrew" scheme="http://reezy.me/tags/homebrew/"/>
+    
+      <category term="mac" scheme="http://reezy.me/tags/mac/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第三方SDK集成库(授权|分享|支付)</title>
+    <link href="http://reezy.me/p/20170331/sdk3rd-authorize-share-payment/"/>
+    <id>http://reezy.me/p/20170331/sdk3rd-authorize-share-payment/</id>
+    <published>2017-03-30T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/czy1121/sdk3rd&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://github.com/czy1121/sdk3rd&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;第三方SDK集成库，支持 授权/分享/支付 等功能&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;授权 目前支持 微信/QQ/新浪微博，客户端只需要配置APPID(新浪微博)&lt;/li&gt;
+&lt;li&gt;分享 目前支持 微信(会话/朋友圈/收藏)，QQ/QZone，新浪微博&lt;/li&gt;
+&lt;li&gt;支付 目前支持 支付宝/微信支付&lt;/li&gt;
+&lt;li&gt;对于授权与分享，客户端不用配置APPSECRET，只需要要APPID(新浪微博授权需要redirectUrl)&lt;/li&gt;
+&lt;li&gt;对于支付，APPID包含在由后端动态返回的paydata里&lt;/li&gt;
+&lt;li&gt;可注册自定义平台实现，满足特殊需求&lt;/li&gt;
+&lt;li&gt;分享并未实现ui，需要自己提供ui&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="分享" scheme="http://reezy.me/tags/%E5%88%86%E4%BA%AB/"/>
+    
+      <category term="授权" scheme="http://reezy.me/tags/%E6%8E%88%E6%9D%83/"/>
+    
+      <category term="支付" scheme="http://reezy.me/tags/%E6%94%AF%E4%BB%98/"/>
+    
+      <category term="sdk" scheme="http://reezy.me/tags/sdk/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>一些 android sdk 的资源 xml 文件</title>
+    <link href="http://reezy.me/p/20170110/android-sdk-xml/"/>
+    <id>http://reezy.me/p/20170110/android-sdk-xml/</id>
+    <published>2017-01-09T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;取自 &lt;a href=&quot;https://developer.android.com/reference/android/R.layout.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://developer.android.com/reference/android/R.layout.html&lt;/a&gt; &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;android-R-layout&quot;&gt;&lt;a href=&quot;#android-R-layout&quot; class=&quot;headerlink&quot; title=&quot;android.R.layout&quot;&gt;&lt;/a&gt;android.R.layout&lt;/h2&gt;&lt;h3 id=&quot;activity-list-item&quot;&gt;&lt;a href=&quot;#activity-list-item&quot; class=&quot;headerlink&quot; title=&quot;activity_list_item&quot;&gt;&lt;/a&gt;activity_list_item&lt;/h3&gt;&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;10&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;11&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;12&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;13&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;14&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;15&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;16&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;17&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;18&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;19&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&amp;gt; &lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;LinearLayout&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;xmlns:android&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;http://schemas.android.com/apk/res/android&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:layout_width&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;match_parent&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:layout_height&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;wrap_content&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:paddingTop&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;1dip&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:paddingBottom&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;1dip&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:paddingStart&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;8dip&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;    &lt;span class=&quot;attr&quot;&gt;android:paddingEnd&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;8dip&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;ImageView&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;@+id/icon&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;        &lt;span class=&quot;attr&quot;&gt;android:layout_width&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;24dip&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;        &lt;span class=&quot;attr&quot;&gt;android:layout_height&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;24dip&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;TextView&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;android:id&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;@android:id/text1&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;        &lt;span class=&quot;attr&quot;&gt;android:layout_width&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;wrap_content&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;        &lt;span class=&quot;attr&quot;&gt;android:layout_height&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;wrap_content&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;        &lt;span class=&quot;attr&quot;&gt;android:layout_gravity&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;center_horizontal&quot;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;        &lt;span class=&quot;attr&quot;&gt;android:paddingStart&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;?android:attr/listPreferredItemPaddingStart&quot;&lt;/span&gt; /&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;LinearLayout&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="xml" scheme="http://reezy.me/tags/xml/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Android Notification 详解</title>
+    <link href="http://reezy.me/p/20161228/android-notification/"/>
+    <id>http://reezy.me/p/20161228/android-notification/</id>
+    <published>2016-12-27T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;1-简单用法&quot;&gt;&lt;a href=&quot;#1-简单用法&quot; class=&quot;headerlink&quot; title=&quot;1. 简单用法&quot;&gt;&lt;/a&gt;1. 简单用法&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;创建通知&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;创建通知至少包含 &lt;strong&gt;小图标、标题、内容&lt;/strong&gt; 才能显示&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;NotificationCompat.Builder builder = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; NotificationCompat.Builder(&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        .setSmallIcon(R.drawable.notification_icon)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        .setContentTitle(&lt;span class=&quot;string&quot;&gt;&quot;My notification&quot;&lt;/span&gt;)&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;        .setContentText(&lt;span class=&quot;string&quot;&gt;&quot;Hello World!&quot;&lt;/span&gt;);&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;发送通知&lt;/strong&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;NotificationManager manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;manager.notify(notifyId, builder.build());&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;取消通知&lt;/strong&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;NotificationManager manager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 取消notifyId关联的通知&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;manager.cancel(notifyId);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 取消所有通知&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;manager.cancelAll();&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="notification" scheme="http://reezy.me/tags/notification/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>适配悬浮窗权限与系统设置修改权限</title>
+    <link href="http://reezy.me/p/20161225/android-special-permission/"/>
+    <id>http://reezy.me/p/20161225/android-special-permission/</id>
+    <published>2016-12-24T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Android 6.0的特殊权限(Special Permissions)包括&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;悬浮窗权限(SYSTEM_ALERT_WINDOW)&lt;/li&gt;
+&lt;li&gt;系统设置修改权限(WRITE_SETTINGS)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Android 6.0以前只要在manifest中申请了权限就是默认开启的&lt;br&gt;Android 6.0+需要在manifest中申请并且通过发送Intent让用户在设置界面进行勾选  &lt;/p&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://reezy.me/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="permission" scheme="http://reezy.me/tags/permission/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>常见APK反编译工具安装与使用</title>
+    <link href="http://reezy.me/p/20161222/android-apk-decompilers/"/>
+    <id>http://reezy.me/p/20161222/android-apk-decompilers/</id>
+    <published>2016-12-21T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h2&gt;&lt;p&gt;一些常见工具都可以通过 &lt;a href=&quot;http://brew.sh/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;homebrew&lt;/a&gt; 或 &lt;a href=&quot;https://caskroom.github.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;homebrew-cask&lt;/a&gt; 安装&lt;/p&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;brew install apktool&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;brew install smali&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;brew install dex2jar&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;brew install jadx&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;brew cask install jd-gui&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="工具" scheme="http://reezy.me/categories/%E5%B7%A5%E5%85%B7/"/>
+    
+    
+      <category term="android" scheme="http://reezy.me/tags/android/"/>
+    
+      <category term="工具" scheme="http://reezy.me/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+      <category term="homebrew" scheme="http://reezy.me/tags/homebrew/"/>
+    
+      <category term="apk" scheme="http://reezy.me/tags/apk/"/>
+    
+      <category term="decompile" scheme="http://reezy.me/tags/decompile/"/>
+    
+  </entry>
+  
+</feed>
