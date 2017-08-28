@@ -400,6 +400,31 @@
   </entry>
   
   <entry>
+    <title>SSL与TLS</title>
+    <link href="http://reezy.me/p/20170421/ssl-tls/"/>
+    <id>http://reezy.me/p/20170421/ssl-tls/</id>
+    <published>2017-04-20T16:00:00.000Z</published>
+    <updated>2017-08-23T21:15:29.000Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;参考：&lt;a href=&quot;https://segmentfault.com/a/1190000002554673&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;SSL/TLS原理详解&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;安全套接字层-Secure-Socket-
+    
+    </summary>
+    
+      <category term="基础知识" scheme="http://reezy.me/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    
+    
+      <category term="openssl" scheme="http://reezy.me/tags/openssl/"/>
+    
+      <category term="ssl" scheme="http://reezy.me/tags/ssl/"/>
+    
+      <category term="tls" scheme="http://reezy.me/tags/tls/"/>
+    
+  </entry>
+  
+  <entry>
     <title>公钥证书相关概念</title>
     <link href="http://reezy.me/p/20170421/pki-ca-cert/"/>
     <id>http://reezy.me/p/20170421/pki-ca-cert/</id>
@@ -431,31 +456,6 @@
       <category term="PKI" scheme="http://reezy.me/tags/PKI/"/>
     
       <category term="X.509" scheme="http://reezy.me/tags/X-509/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SSL与TLS</title>
-    <link href="http://reezy.me/p/20170421/ssl-tls/"/>
-    <id>http://reezy.me/p/20170421/ssl-tls/</id>
-    <published>2017-04-20T16:00:00.000Z</published>
-    <updated>2017-08-23T21:15:29.000Z</updated>
-    
-    <summary type="html">
-    
-      &lt;p&gt;参考：&lt;a href=&quot;https://segmentfault.com/a/1190000002554673&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;SSL/TLS原理详解&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;安全套接字层-Secure-Socket-
-    
-    </summary>
-    
-      <category term="基础知识" scheme="http://reezy.me/categories/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
-    
-    
-      <category term="openssl" scheme="http://reezy.me/tags/openssl/"/>
-    
-      <category term="ssl" scheme="http://reezy.me/tags/ssl/"/>
-    
-      <category term="tls" scheme="http://reezy.me/tags/tls/"/>
     
   </entry>
   
